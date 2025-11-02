@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Changeset 1: Create sequence for entry_item ID generation -->
+    <changeSet id="202511022337000-1" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists schemaName="ledger" sequenceName="entry_item_seq"/>
+            </not>
+        </preConditions>
+        <createSequence schemaName="ledger" sequenceName="entry_item_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <!-- Changeset 2: Create entry_item table -->
+    <changeSet id="202511022337000-2" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="ledger" tableName="entry_item"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="ledger" tableName="entry_item">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_entry_item"/>
+            </column>
+            <column name="account_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="journal_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="billing_amount" type="DOUBLE PRECISION">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currency" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_on" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_by" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Changeset 3: Create entry_item audit table -->
+    <changeSet id="202511022337000-3" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="ledger" tableName="entry_item_aud"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="ledger" tableName="entry_item_aud">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rev" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revtype" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_id" type="BIGINT"/>
+            <column name="journal_id" type="BIGINT"/>
+            <column name="billing_amount" type="DOUBLE PRECISION"/>
+            <column name="currency" type="VARCHAR(50)"/>
+            <column name="amount" type="VARCHAR(50)"/>
+            <column name="created_on" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT"/>
+            <column name="updated_on" type="TIMESTAMP"/>
+            <column name="updated_by" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Changeset 4: Add primary key to entry_item_aud table -->
+    <changeSet id="202511022337000-4" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists schemaName="ledger" tableName="entry_item_aud" primaryKeyName="pk_entry_item_aud"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey
+                schemaName="ledger"
+                tableName="entry_item_aud"
+                columnNames="id, rev"
+                constraintName="pk_entry_item_aud"/>
+    </changeSet>
+
+</databaseChangeLog>
+

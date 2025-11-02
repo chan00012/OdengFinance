@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Changeset 1: Create Envers revision info table -->
+    <changeSet id="202511022333000-1" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="revinfo"/>
+            </not>
+        </preConditions>
+        <createTable tableName="revinfo">
+            <column name="rev" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_revinfo"/>
+            </column>
+            <column name="revtstmp" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="revinfo"/>
+        </rollback>
+    </changeSet>
+
+    <!-- Changeset 2: Create sequence for revision info -->
+    <changeSet id="202511022333000-2" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="revinfo_seq"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="revinfo_seq" startValue="1" incrementBy="50"/>
+        <rollback>
+            <dropSequence sequenceName="revinfo_seq"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
+
