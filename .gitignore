@@ -38,3 +38,7 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+### OpenAPI Generated Code ###
+# Generated sources should not be committed
+build/generated/
