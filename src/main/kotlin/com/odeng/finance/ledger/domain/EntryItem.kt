@@ -1,4 +1,4 @@
-package com.odeng.finance.ledger.domain.models
+package com.odeng.finance.ledger.domain
 
 import com.odeng.finance.common.Money
 

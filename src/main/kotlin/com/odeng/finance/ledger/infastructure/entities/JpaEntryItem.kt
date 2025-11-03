@@ -1,7 +1,7 @@
 package com.odeng.finance.ledger.infastructure.entities
 
 import com.odeng.finance.common.Currency
-import com.odeng.finance.ledger.domain.models.Direction
+import com.odeng.finance.ledger.domain.Direction
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
@@ -15,6 +15,7 @@ import jakarta.persistence.Table
 import org.hibernate.envers.Audited
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
@@ -48,17 +49,17 @@ class JpaEntryItem(
 
     @CreatedDate
     @Column(name = "created_on", updatable = false)
-    val createdOn: Instant? = null,
+    var createdOn: Instant? = null,
 
     @CreatedBy
     @Column(name = "created_by", updatable = false)
-    val createdBy: Long? = null,
+    var createdBy: Long? = null,
 
     @LastModifiedDate
     @Column(name = "updated_on")
     var updatedOn: Instant? = null,
 
-    @LastModifiedDate
+    @LastModifiedBy
     @Column(name = "updated_by")
     var updatedBy: Long? = null
 ) {

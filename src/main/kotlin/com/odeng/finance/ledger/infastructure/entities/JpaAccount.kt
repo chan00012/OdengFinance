@@ -1,7 +1,8 @@
 package com.odeng.finance.ledger.infastructure.entities
 
-import com.odeng.finance.ledger.domain.models.AccountStatus
-import com.odeng.finance.ledger.domain.models.AccountType
+import com.odeng.finance.ledger.domain.Account
+import com.odeng.finance.ledger.domain.AccountStatus
+import com.odeng.finance.ledger.domain.AccountType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
@@ -15,6 +16,7 @@ import jakarta.persistence.Table
 import org.hibernate.envers.Audited
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
@@ -27,8 +29,7 @@ import java.time.Instant
 class JpaAccount(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq_generator")
-    @Column(nullable = false)
-    val id: Long,
+    val id: Long? = null,
 
     @Column(name = "user_group_id", nullable = false)
     val userGroupId: Long,
@@ -46,18 +47,30 @@ class JpaAccount(
 
     @CreatedDate
     @Column(name = "created_on", updatable = false)
-    val createdOn: Instant? = null,
+    var createdOn: Instant? = null,
 
     @CreatedBy
     @Column(name = "created_by", updatable = false)
-    val createdBy: Long? = null,
+    var createdBy: Long? = null,
 
     @LastModifiedDate
     @Column(name = "updated_on")
     var updatedOn: Instant? = null,
 
-    @LastModifiedDate
+    @LastModifiedBy
     @Column(name = "updated_by")
     var updatedBy: Long? = null
 ) {
+
+    companion object {
+        fun JpaAccount.toDomain(): Account {
+            return Account(
+                id = id,
+                userGroupId = userGroupId,
+                name = name,
+                accountType = accountType,
+                accountStatus = accountStatus
+            )
+        }
+    }
 }
