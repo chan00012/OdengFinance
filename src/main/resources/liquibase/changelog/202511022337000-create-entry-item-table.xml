@@ -40,7 +40,7 @@
             <column name="currency" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="amount" type="VARCHAR(50)">
+            <column name="direction" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_on" type="TIMESTAMP">
@@ -79,7 +79,7 @@
             <column name="journal_id" type="BIGINT"/>
             <column name="billing_amount" type="DOUBLE PRECISION"/>
             <column name="currency" type="VARCHAR(50)"/>
-            <column name="amount" type="VARCHAR(50)"/>
+            <column name="direction" type="VARCHAR(50)"/>
             <column name="created_on" type="TIMESTAMP"/>
             <column name="created_by" type="BIGINT"/>
             <column name="updated_on" type="TIMESTAMP"/>

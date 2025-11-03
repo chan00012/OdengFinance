@@ -9,4 +9,7 @@ class EntryItem(
     val billingAmount: Money,
     val direction: Direction
 ) {
+    override fun toString(): String {
+        return "EntryItem(id=$id, journalId=$journalId, accountId=$accountId, billingAmount=$billingAmount, direction=$direction)"
+    }
 }

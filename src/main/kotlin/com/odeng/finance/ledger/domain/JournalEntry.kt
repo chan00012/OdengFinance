@@ -10,8 +10,13 @@ class JournalEntry(
     val transactionDate: Instant,
     val createdOn: Instant? = null,
 ) {
-
     fun addItem(item: EntryItem) {
         items.add(item)
     }
+
+    override fun toString(): String {
+        return "JournalEntry(id=$id, description='$description', memo='$memo', items=$items, transactionDate=$transactionDate, createdOn=$createdOn)"
+    }
+
+
 }

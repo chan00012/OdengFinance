@@ -45,7 +45,7 @@ class JpaEntryItem(
     @Enumerated(EnumType.STRING)
     val currency: Currency,
 
-    @Column(name = "amount", nullable = false)
+    @Column(name = "direction", nullable = false)
     @Enumerated(EnumType.STRING)
     val direction: Direction,
 

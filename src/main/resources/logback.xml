@@ -7,6 +7,9 @@
         </encoder>
     </appender>
 
+    <!-- Suppress Liquibase changelog warnings about .class files -->
+    <logger name="liquibase.changelog" level="ERROR"/>
+
     <!-- Root logger -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>

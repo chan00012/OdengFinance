@@ -28,4 +28,12 @@ class DefaultEntryItemRepository(
         val savedEntity = jpaEntryItemRepository.save(entity)
         return savedEntity.toDomain()
     }
+
+    override fun getByJournalId(journalId: Long): List<EntryItem> {
+        return jpaEntryItemRepository.findByJournalId(journalId).map { it.toDomain() }
+    }
+
+    override fun getByAccountId(accountId: Long): List<EntryItem> {
+        return jpaEntryItemRepository.findByAccountId(accountId).map { it.toDomain() }
+    }
 }
