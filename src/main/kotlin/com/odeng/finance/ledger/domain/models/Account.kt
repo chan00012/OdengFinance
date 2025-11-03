@@ -8,6 +8,6 @@ class Account(
     val name: String,
     val balance: Money,
     val accountType: AccountType,
-    val isActive: Boolean
+    val accountStatus: AccountStatus
 ) {
 }

@@ -1,5 +1,6 @@
 package com.odeng.finance.ledger.infastructure.entities
 
+import com.odeng.finance.ledger.domain.models.AccountStatus
 import com.odeng.finance.ledger.domain.models.AccountType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -39,8 +40,9 @@ class JpaAccount(
     @Column(name = "account_type", nullable = false)
     val accountType: AccountType,
 
-    @Column(name = "is_active", nullable = false)
-    var isActive: Boolean,
+    @Enumerated(EnumType.STRING)
+    @Column(name = "account_status", nullable = false)
+    var accountStatus: AccountStatus,
 
     @CreatedDate
     @Column(name = "created_on", updatable = false)

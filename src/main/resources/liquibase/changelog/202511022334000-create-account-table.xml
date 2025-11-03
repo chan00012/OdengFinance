@@ -47,7 +47,7 @@
             <column name="account_type" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="is_active" type="BOOLEAN">
+            <column name="account_status" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_on" type="TIMESTAMP">
@@ -85,7 +85,7 @@
             <column name="user_group_id" type="BIGINT"/>
             <column name="name" type="VARCHAR(255)"/>
             <column name="account_type" type="VARCHAR(50)"/>
-            <column name="is_active" type="BOOLEAN"/>
+            <column name="account_status" type="VARCHAR(50)"/>
             <column name="created_on" type="TIMESTAMP"/>
             <column name="created_by" type="BIGINT"/>
             <column name="updated_on" type="TIMESTAMP"/>
