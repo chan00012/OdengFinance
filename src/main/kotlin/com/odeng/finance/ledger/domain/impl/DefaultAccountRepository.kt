@@ -6,9 +6,12 @@ import com.odeng.finance.ledger.infastructure.entities.JpaAccount
 import com.odeng.finance.ledger.infastructure.entities.JpaAccount.Companion.toDomain
 import com.odeng.finance.ledger.infastructure.repository.JpaAccountRepository
 import org.springframework.stereotype.Repository
+import kotlin.jvm.optionals.getOrNull
 
 @Repository
-class DefaultAccountRepository(private val jpaAccountRepository: JpaAccountRepository) : AccountRepository {
+class DefaultAccountRepository(
+    private val jpaAccountRepository: JpaAccountRepository
+) : AccountRepository {
     private companion object {
         fun Account.toEntity(): JpaAccount {
             return JpaAccount(
@@ -28,7 +31,7 @@ class DefaultAccountRepository(private val jpaAccountRepository: JpaAccountRepos
         return savedEntity.toDomain()
     }
 
-    override fun getById(id: Long): Account? {
-        return jpaAccountRepository.findById(id).map { it.toDomain() }.orElse(null)
+    override fun getById(id: Long): Account {
+        return jpaAccountRepository.findById(id).getOrNull()?.toDomain() ?: error("Account with id $id not found")
     }
 }

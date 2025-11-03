@@ -1,5 +1,6 @@
 package com.odeng.finance.ledger.infastructure.entities
 
+import com.odeng.finance.ledger.domain.JournalEntry
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
@@ -24,7 +25,7 @@ import java.time.Instant
 class JpaJournalEntry(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "journal_entry_seq_generator")
-    val id: Long,
+    val id: Long? = null,
 
     @Column(name = "description", nullable = false)
     val description: String,
@@ -51,4 +52,16 @@ class JpaJournalEntry(
     @Column(name = "updated_by")
     var updatedBy: Long? = null
 ) {
+    companion object {
+        fun JpaJournalEntry.toDomain(): JournalEntry {
+            return JournalEntry(
+                id = id,
+                description = description,
+                memo = memo,
+                transactionDate = transactionDate,
+                createdOn = createdOn!!,
+                items = mutableListOf()
+            )
+        }
+    }
 }

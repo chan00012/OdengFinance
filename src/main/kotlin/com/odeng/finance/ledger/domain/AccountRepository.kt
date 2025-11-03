@@ -4,5 +4,5 @@ interface AccountRepository {
 
     fun create(account: Account): Account
 
-    fun getById(id: Long): Account?
+    fun getById(id: Long): Account
 }

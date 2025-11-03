@@ -1,7 +1,9 @@
 package com.odeng.finance.ledger.infastructure.entities
 
 import com.odeng.finance.common.Currency
+import com.odeng.finance.common.Money
 import com.odeng.finance.ledger.domain.Direction
+import com.odeng.finance.ledger.domain.EntryItem
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
@@ -28,7 +30,7 @@ import java.time.Instant
 class JpaEntryItem(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "entry_item_seq_generator")
-    val id: Long,
+    val id: Long? = null,
 
     @Column(name = "account_id", nullable = false)
     val accountId: Long,
@@ -63,4 +65,16 @@ class JpaEntryItem(
     @Column(name = "updated_by")
     var updatedBy: Long? = null
 ) {
+
+    companion object {
+        fun JpaEntryItem.toDomain(): EntryItem {
+            return EntryItem(
+                id = id,
+                journalId = journalId,
+                accountId = accountId,
+                billingAmount = Money(billingAmount, currency),
+                direction = direction
+            )
+        }
+    }
 }
