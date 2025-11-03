@@ -1,10 +1,10 @@
 package com.odeng.finance.ledger.interfaces.rest
 
-import com.odeng.finance.ledger.interfaces.rest.api.AccountsApi
-import com.odeng.finance.ledger.interfaces.rest.api.model.AccountResponse
-import com.odeng.finance.ledger.interfaces.rest.api.model.AccountStatus
-import com.odeng.finance.ledger.interfaces.rest.api.model.AccountType
-import com.odeng.finance.ledger.interfaces.rest.api.model.CreateAccountRequest
+import com.odeng.finance.interfaces.rest.api.AccountsApi
+import com.odeng.finance.interfaces.rest.api.model.AccountResponse
+import com.odeng.finance.interfaces.rest.api.model.AccountStatus
+import com.odeng.finance.interfaces.rest.api.model.AccountType
+import com.odeng.finance.interfaces.rest.api.model.CreateAccountRequest
 import com.odeng.finance.ledger.application.AccountService
 import com.odeng.finance.ledger.application.CreateAccountInput
 import mu.KotlinLogging

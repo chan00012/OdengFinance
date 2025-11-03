@@ -84,8 +84,8 @@ val generatedApiTasks = mutableListOf<String>()
 fun org.openapitools.generator.gradle.plugin.tasks.GenerateTask.configureOpenApiGeneration() {
     generatorName.set("kotlin-spring")
     outputDir.set(layout.buildDirectory.dir("generated/openapi").get().asFile.absolutePath)
-    apiPackage.set("com.odeng.finance.ledger.interfaces.rest.api")
-    modelPackage.set("com.odeng.finance.ledger.interfaces.rest.api.model")
+    apiPackage.set("com.odeng.finance.interfaces.rest.api")
+    modelPackage.set("com.odeng.finance.interfaces.rest.api.model")
 
     configOptions.set(mapOf(
         "dateLibrary" to "java8",

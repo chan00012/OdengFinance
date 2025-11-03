@@ -1,7 +1,7 @@
 package com.odeng.finance.ledger.interfaces.rest
 
-import com.odeng.finance.ledger.interfaces.rest.api.JournalEntriesApi
-import com.odeng.finance.ledger.interfaces.rest.api.model.*
+import com.odeng.finance.interfaces.rest.api.JournalEntriesApi
+import com.odeng.finance.interfaces.rest.api.model.*
 import com.odeng.finance.ledger.application.CreateJournalEntryInput
 import com.odeng.finance.ledger.application.JournalEntryService
 import com.odeng.finance.common.Currency as DomainCurrency
@@ -15,7 +15,7 @@ import java.time.Instant
 
 /**
  * REST controller implementation for Journal Entries API.
- * 
+ *
  * This controller implements the JournalEntriesApi interface generated from the OpenAPI specification.
  * It acts as an adapter between the REST API layer and the application service layer,
  * following the Hexagonal Architecture pattern.
@@ -31,7 +31,7 @@ class JournalEntriesController(
 
     /**
      * Creates a new journal entry.
-     * 
+     *
      * Maps the API request to the domain input and converts the domain response back to API response.
      */
     override fun createJournalEntry(
@@ -51,10 +51,10 @@ class JournalEntriesController(
             sourceAccountId = createJournalEntryRequest.sourceAccountId,
             destinationAccountId = createJournalEntryRequest.destinationAccountId
         )
-        
+
         // Call domain service
         val journalEntry = journalEntryService.createJournalEntry(input)
-        
+
         // Map domain response to API response
         val response = JournalEntryResponse(
             id = journalEntry.id!!,
@@ -72,7 +72,7 @@ class JournalEntriesController(
                 )
             }
         )
-        
+
         logger.info { "Journal entry created successfully: ${response.id}" }
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
@@ -82,14 +82,14 @@ class JournalEntriesController(
      */
     override fun getJournalEntryById(journalEntryId: Long): ResponseEntity<JournalEntryResponse> {
         logger.info { "Fetching journal entry with ID: $journalEntryId" }
-        
+
         val journalEntry = try {
             journalEntryService.getJournalEntryById(journalEntryId)
         } catch (e: IllegalStateException) {
             logger.warn { "Journal entry not found: $journalEntryId" }
             return ResponseEntity.notFound().build()
         }
-        
+
         val response = JournalEntryResponse(
             id = journalEntry.id!!,
             description = journalEntry.description,
@@ -106,7 +106,7 @@ class JournalEntriesController(
                 )
             }
         )
-        
+
         logger.info { "Journal entry retrieved successfully: ${response.id}" }
         return ResponseEntity.ok(response)
     }
