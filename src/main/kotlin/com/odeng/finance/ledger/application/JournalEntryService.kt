@@ -1,10 +1,10 @@
 package com.odeng.finance.ledger.application
 
-import com.odeng.finance.ledger.domain.AccountRepository
-import com.odeng.finance.ledger.domain.Direction
-import com.odeng.finance.ledger.domain.EntryItem
+import com.odeng.finance.ledger.domain.model.AccountRepository
+import com.odeng.finance.ledger.domain.model.Direction
+import com.odeng.finance.ledger.domain.model.EntryItem
 import com.odeng.finance.ledger.domain.EntryItemRepository
-import com.odeng.finance.ledger.domain.JournalEntry
+import com.odeng.finance.ledger.domain.model.JournalEntry
 import com.odeng.finance.ledger.domain.JournalEntryRepository
 import org.springframework.stereotype.Service
 

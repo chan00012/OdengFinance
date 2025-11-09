@@ -1,4 +1,4 @@
-package com.odeng.finance.ledger.domain
+package com.odeng.finance.ledger.domain.model
 
 import java.time.Instant
 

@@ -6,12 +6,11 @@ import com.odeng.finance.ledger.application.CreateJournalEntryInput
 import com.odeng.finance.ledger.application.JournalEntryService
 import com.odeng.finance.common.Currency as DomainCurrency
 import com.odeng.finance.common.Money as DomainMoney
-import com.odeng.finance.ledger.domain.Direction as DomainDirection
+import com.odeng.finance.ledger.domain.model.Direction as DomainDirection
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
-import java.time.Instant
 
 /**
  * REST controller implementation for Journal Entries API.

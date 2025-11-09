@@ -2,8 +2,8 @@ package com.odeng.finance.ledger.infastructure.entities
 
 import com.odeng.finance.common.Currency
 import com.odeng.finance.common.Money
-import com.odeng.finance.ledger.domain.Direction
-import com.odeng.finance.ledger.domain.EntryItem
+import com.odeng.finance.ledger.domain.model.Direction
+import com.odeng.finance.ledger.domain.model.EntryItem
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners

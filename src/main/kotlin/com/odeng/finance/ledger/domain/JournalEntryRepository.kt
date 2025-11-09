@@ -1,5 +1,6 @@
 package com.odeng.finance.ledger.domain
 
+import com.odeng.finance.ledger.domain.model.JournalEntry
 import java.time.Instant
 
 interface JournalEntryRepository {

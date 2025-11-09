@@ -1,6 +1,6 @@
 package com.odeng.finance.ledger.infastructure.entities
 
-import com.odeng.finance.ledger.domain.JournalEntry
+import com.odeng.finance.ledger.domain.model.JournalEntry
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners

@@ -1,6 +1,6 @@
 package com.odeng.finance.ledger.domain.impl
 
-import com.odeng.finance.ledger.domain.JournalEntry
+import com.odeng.finance.ledger.domain.model.JournalEntry
 import com.odeng.finance.ledger.domain.JournalEntryRepository
 import com.odeng.finance.ledger.infastructure.entities.JpaJournalEntry
 import com.odeng.finance.ledger.infastructure.entities.JpaJournalEntry.Companion.toDomain

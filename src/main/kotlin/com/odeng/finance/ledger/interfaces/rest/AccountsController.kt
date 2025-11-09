@@ -84,30 +84,30 @@ class AccountsController(
     // Mapping Functions: API Models <-> Domain Models
     // ============================================================================
 
-    private fun mapAccountType(apiType: AccountType): com.odeng.finance.ledger.domain.AccountType {
+    private fun mapAccountType(apiType: AccountType): com.odeng.finance.ledger.domain.model.AccountType {
         return when (apiType) {
-            AccountType.ASSET -> com.odeng.finance.ledger.domain.AccountType.ASSET
-            AccountType.LIABILITY -> com.odeng.finance.ledger.domain.AccountType.LIABILITY
-            AccountType.EQUITY -> com.odeng.finance.ledger.domain.AccountType.EQUITY
-            AccountType.INCOME -> com.odeng.finance.ledger.domain.AccountType.INCOME
-            AccountType.EXPENSE -> com.odeng.finance.ledger.domain.AccountType.EXPENSE
+            AccountType.ASSET -> com.odeng.finance.ledger.domain.model.AccountType.ASSET
+            AccountType.LIABILITY -> com.odeng.finance.ledger.domain.model.AccountType.LIABILITY
+            AccountType.EQUITY -> com.odeng.finance.ledger.domain.model.AccountType.EQUITY
+            AccountType.INCOME -> com.odeng.finance.ledger.domain.model.AccountType.INCOME
+            AccountType.EXPENSE -> com.odeng.finance.ledger.domain.model.AccountType.EXPENSE
         }
     }
 
-    private fun mapAccountTypeToApi(domainType: com.odeng.finance.ledger.domain.AccountType): AccountType {
+    private fun mapAccountTypeToApi(domainType: com.odeng.finance.ledger.domain.model.AccountType): AccountType {
         return when (domainType) {
-            com.odeng.finance.ledger.domain.AccountType.ASSET -> AccountType.ASSET
-            com.odeng.finance.ledger.domain.AccountType.LIABILITY -> AccountType.LIABILITY
-            com.odeng.finance.ledger.domain.AccountType.EQUITY -> AccountType.EQUITY
-            com.odeng.finance.ledger.domain.AccountType.INCOME -> AccountType.INCOME
-            com.odeng.finance.ledger.domain.AccountType.EXPENSE -> AccountType.EXPENSE
+            com.odeng.finance.ledger.domain.model.AccountType.ASSET -> AccountType.ASSET
+            com.odeng.finance.ledger.domain.model.AccountType.LIABILITY -> AccountType.LIABILITY
+            com.odeng.finance.ledger.domain.model.AccountType.EQUITY -> AccountType.EQUITY
+            com.odeng.finance.ledger.domain.model.AccountType.INCOME -> AccountType.INCOME
+            com.odeng.finance.ledger.domain.model.AccountType.EXPENSE -> AccountType.EXPENSE
         }
     }
 
-    private fun mapAccountStatusToApi(domainStatus: com.odeng.finance.ledger.domain.AccountStatus): AccountStatus {
+    private fun mapAccountStatusToApi(domainStatus: com.odeng.finance.ledger.domain.model.AccountStatus): AccountStatus {
         return when (domainStatus) {
-            com.odeng.finance.ledger.domain.AccountStatus.ACTIVE -> AccountStatus.ACTIVE
-            com.odeng.finance.ledger.domain.AccountStatus.INACTIVE -> AccountStatus.INACTIVE
+            com.odeng.finance.ledger.domain.model.AccountStatus.ACTIVE -> AccountStatus.ACTIVE
+            com.odeng.finance.ledger.domain.model.AccountStatus.INACTIVE -> AccountStatus.INACTIVE
         }
     }
 }

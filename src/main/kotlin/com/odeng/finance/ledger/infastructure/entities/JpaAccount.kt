@@ -1,8 +1,8 @@
 package com.odeng.finance.ledger.infastructure.entities
 
-import com.odeng.finance.ledger.domain.Account
-import com.odeng.finance.ledger.domain.AccountStatus
-import com.odeng.finance.ledger.domain.AccountType
+import com.odeng.finance.ledger.domain.model.Account
+import com.odeng.finance.ledger.domain.model.AccountStatus
+import com.odeng.finance.ledger.domain.model.AccountType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners

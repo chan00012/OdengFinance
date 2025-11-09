@@ -1,8 +1,8 @@
 package com.odeng.finance.ledger.application
 
-import com.odeng.finance.ledger.domain.Account
-import com.odeng.finance.ledger.domain.AccountRepository
-import com.odeng.finance.ledger.domain.AccountStatus
+import com.odeng.finance.ledger.domain.model.Account
+import com.odeng.finance.ledger.domain.model.AccountRepository
+import com.odeng.finance.ledger.domain.model.AccountStatus
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 
