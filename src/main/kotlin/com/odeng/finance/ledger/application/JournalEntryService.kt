@@ -69,20 +69,22 @@ class JournalEntryService(
             )
         )
 
+        val journalEntryWithItems = journalEntry
+            .addItem(sourceEntryItem)
+            .addItem(destinationEntryItem)
 
-        journalEntry.addItem(sourceEntryItem)
-        journalEntry.addItem(destinationEntryItem)
-
-        return journalEntry
+        return journalEntryWithItems
     }
 
     fun getJournalEntryById(id: Long): JournalEntry {
         val journalEntry = journalEntryRepository.getById(id)
         val entryItems = entryItemRepository.getByJournalId(id)
-        entryItems.forEach {
-            journalEntry.addItem(it)
+
+        // Since JournalEntry is now a data class (immutable), fold over items to build new instance
+        val journalEntryWithItems = entryItems.fold(journalEntry) { entry, item ->
+            entry.addItem(item)
         }
 
-        return journalEntry
+        return journalEntryWithItems
     }
 }

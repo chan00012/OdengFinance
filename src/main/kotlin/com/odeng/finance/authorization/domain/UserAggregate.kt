@@ -6,6 +6,8 @@ import com.odeng.finance.authorization.domain.model.UserStatus
 /**
  * User Aggregate Root - contains pure domain logic for user lifecycle.
  * No infrastructure dependencies - follows DDD principles.
+ *
+ * Note: Now that User is a data class, we can use .copy() for state transitions.
  */
 class UserAggregate(
     var user: User? = null

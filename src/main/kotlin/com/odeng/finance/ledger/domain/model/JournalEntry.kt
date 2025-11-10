@@ -2,21 +2,23 @@ package com.odeng.finance.ledger.domain.model
 
 import java.time.Instant
 
-class JournalEntry(
+/**
+ * JournalEntry domain entity.
+ * Represents a journal entry with multiple line items (debits and credits).
+ */
+data class JournalEntry(
     val id: Long? = null,
     val description: String,
     val memo: String,
-    val items: MutableList<EntryItem> = mutableListOf(),
+    val items: List<EntryItem> = emptyList(),
     val transactionDate: Instant,
     val createdOn: Instant? = null,
 ) {
-    fun addItem(item: EntryItem) {
-        items.add(item)
+    /**
+     * Creates a new JournalEntry with an additional item.
+     * This maintains immutability by creating a new instance.
+     */
+    fun addItem(item: EntryItem): JournalEntry {
+        return copy(items = items + item)
     }
-
-    override fun toString(): String {
-        return "JournalEntry(id=$id, description='$description', memo='$memo', items=$items, transactionDate=$transactionDate, createdOn=$createdOn)"
-    }
-
-
 }
