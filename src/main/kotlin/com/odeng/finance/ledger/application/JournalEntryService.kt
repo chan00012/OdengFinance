@@ -80,7 +80,6 @@ class JournalEntryService(
         val journalEntry = journalEntryRepository.getById(id)
         val entryItems = entryItemRepository.getByJournalId(id)
 
-        // Since JournalEntry is now a data class (immutable), fold over items to build new instance
         val journalEntryWithItems = entryItems.fold(journalEntry) { entry, item ->
             entry.addItem(item)
         }

@@ -6,7 +6,6 @@ import com.odeng.finance.common.ValidationResult
 
 /**
  * Domain interface for validating user creation input.
- * Combines domain validation rules with infrastructure-based uniqueness checks.
  */
 interface CreateUserInputValidator : InputValidator<CreateUserInput> {
 

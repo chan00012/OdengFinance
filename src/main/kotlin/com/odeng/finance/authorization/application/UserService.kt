@@ -35,17 +35,17 @@ class UserService(
     fun createUser(input: CreateUserInput): User {
         logger.info { "Creating user with input=$input" }
 
-        // Step 1: Validate input (application layer responsibility)
+        // Step 1: Validate input
         val validationResult = validator.validate(input)
         if (!validationResult.isValid) {
             logger.warn { "User creation validation failed: ${validationResult.errors}" }
             throw ValidationException(validationResult.errors)
         }
 
-        // Step 2: Hash password (infrastructure concern, done before domain)
+        // Step 2: Hash password
         val hashedPassword = hashService.hash(input.password)
 
-        // Step 3: Create user through domain aggregate (pure domain logic)
+        // Step 3: Create user through domain aggregate
         val aggregate = UserAggregate()
         val user = aggregate.createUser(
             username = input.username,
@@ -53,7 +53,7 @@ class UserService(
             hashedPassword = hashedPassword
         )
 
-        // Step 4: Persist user (infrastructure concern)
+        // Step 4: Persist user
         val savedUser = userRepository.create(user)
 
         logger.info { "User created successfully: username=${savedUser.username}, id=${savedUser.id}" }

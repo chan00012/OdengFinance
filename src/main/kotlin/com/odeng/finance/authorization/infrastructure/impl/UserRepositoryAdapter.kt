@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository
 
 /**
  * Infrastructure adapter that implements the domain UserRepository port using JPA.
- * This is the Adapter in the Ports & Adapters (Hexagonal Architecture) pattern.
  */
 @Repository
 class UserRepositoryAdapter(
