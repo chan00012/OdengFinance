@@ -4,9 +4,7 @@ class User(
     val id: Long? = null,
     val userName: String,
     val email: String,
-    val firstName: String,
-    val lastName: String,
     val hashPassword: String,
-    val userStatus: UserStatus,
-    ) {
+    val status: UserStatus,
+) {
 }

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Changeset 1: Create authz schema -->
+    <changeSet id="202511091430000-1" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = 'authz'
+            </sqlCheck>
+        </preConditions>
+        <sql>CREATE SCHEMA authz</sql>
+    </changeSet>
+
+    <!-- Changeset 2: Create sequence for user ID generation -->
+    <changeSet id="202511091430000-2" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists schemaName="authz" sequenceName="user_seq"/>
+            </not>
+        </preConditions>
+        <createSequence schemaName="authz" sequenceName="user_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <!-- Changeset 3: Create user table -->
+    <changeSet id="202511091430000-3" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="authz" tableName="user"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="authz" tableName="user">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_user"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hash_password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_on" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_by" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Changeset 4: Create user audit table -->
+    <changeSet id="202511091430000-4" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="authz" tableName="user_aud"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="authz" tableName="user_aud">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rev" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revtype" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="hash_password" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(50)"/>
+            <column name="created_on" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT"/>
+            <column name="updated_on" type="TIMESTAMP"/>
+            <column name="updated_by" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Changeset 5: Add primary key to user_aud table -->
+    <changeSet id="202511091430000-5" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists schemaName="authz" tableName="user_aud" primaryKeyName="pk_user_aud"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey
+                schemaName="authz"
+                tableName="user_aud"
+                columnNames="id, rev"
+                constraintName="pk_user_aud"/>
+    </changeSet>
+
+    <!-- Changeset 6: Create index on username -->
+    <changeSet id="202511091430000-6" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists schemaName="authz" tableName="user" indexName="idx_user_username"/>
+            </not>
+        </preConditions>
+        <createIndex schemaName="authz" tableName="user" indexName="idx_user_username">
+            <column name="username"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Changeset 7: Create index on email -->
+    <changeSet id="202511091430000-7" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists schemaName="authz" tableName="user" indexName="idx_user_email"/>
+            </not>
+        </preConditions>
+        <createIndex schemaName="authz" tableName="user" indexName="idx_user_email">
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
+
+
