@@ -1,7 +1,7 @@
 package com.odeng.finance.ledger.domain.impl
 
 import com.odeng.finance.ledger.domain.model.Account
-import com.odeng.finance.ledger.domain.model.AccountRepository
+import com.odeng.finance.ledger.domain.AccountRepository
 import com.odeng.finance.ledger.infastructure.entities.JpaAccount
 import com.odeng.finance.ledger.infastructure.entities.JpaAccount.Companion.toDomain
 import com.odeng.finance.ledger.infastructure.repository.JpaAccountRepository
