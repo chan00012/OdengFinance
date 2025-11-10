@@ -1,7 +1,17 @@
-package com.odeng.finance.authorization.infastructure
+package com.odeng.finance.authorization.infastructure.entities
 
+import com.odeng.finance.authorization.domain.model.User
 import com.odeng.finance.authorization.domain.model.UserStatus
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.SequenceGenerator
+import jakarta.persistence.Table
 import org.hibernate.envers.Audited
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -49,4 +59,16 @@ class JpaUser(
     @Column(name = "updated_by")
     var updatedBy: Long? = null
 ) {
+    companion object {
+        fun JpaUser.toDomain(): User {
+            return User(
+                id = id,
+                username = username,
+                email = email,
+                hashPassword = hashPassword,
+                status = status
+            )
+
+        }
+    }
 }
