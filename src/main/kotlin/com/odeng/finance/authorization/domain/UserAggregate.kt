@@ -2,32 +2,37 @@ package com.odeng.finance.authorization.domain
 
 import com.odeng.finance.authorization.domain.model.User
 import com.odeng.finance.authorization.domain.model.UserStatus
-import com.odeng.finance.common.ValidationException
 
+/**
+ * User Aggregate Root - contains pure domain logic for user lifecycle.
+ * No infrastructure dependencies - follows DDD principles.
+ */
 class UserAggregate(
     var user: User? = null
 ) {
 
+    /**
+     * Creates a new user with the given attributes.
+     * Assumes validation and password hashing have already been performed by the application layer.
+     *
+     * @param username The username for the new user
+     * @param email The email for the new user
+     * @param hashedPassword The already-hashed password
+     * @return The created User domain entity
+     */
     fun createUser(
-        input: CreateUserInput,
-        validator: CreateUserInputValidator,
-        hashService: HashService,
-        userRepository: UserRepository
-    ) {
-
-        val validationResult = validator.validate(input)
-        if (!validationResult.isValid) {
-            throw ValidationException(validationResult.errors)
-        }
-
-        val user = User(
-            username = input.username,
-            email = input.email,
-            hashPassword = hashService.hash(input.password),
+        username: String,
+        email: String,
+        hashedPassword: String
+    ): User {
+        val newUser = User(
+            username = username,
+            email = email,
+            hashPassword = hashedPassword,
             status = UserStatus.CREATED
         )
 
-        val createdUser = userRepository.create(user)
-        this.user = createdUser
+        this.user = newUser
+        return newUser
     }
 }

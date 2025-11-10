@@ -1,6 +1,6 @@
-package com.odeng.finance.authorization.infastructure.repository
+package com.odeng.finance.authorization.infrastructure.repository
 
-import com.odeng.finance.authorization.infastructure.entities.JpaUser
+import com.odeng.finance.authorization.infrastructure.entities.JpaUser
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface JpaUserRepository : JpaRepository<JpaUser, Long> {

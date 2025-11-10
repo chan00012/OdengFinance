@@ -1,14 +1,18 @@
-package com.odeng.finance.authorization.domain.impl
+package com.odeng.finance.authorization.infrastructure.impl
 
 import com.odeng.finance.authorization.domain.UserRepository
 import com.odeng.finance.authorization.domain.model.User
-import com.odeng.finance.authorization.infastructure.entities.JpaUser
-import com.odeng.finance.authorization.infastructure.entities.JpaUser.Companion.toDomain
-import com.odeng.finance.authorization.infastructure.repository.JpaUserRepository
+import com.odeng.finance.authorization.infrastructure.entities.JpaUser
+import com.odeng.finance.authorization.infrastructure.entities.JpaUser.Companion.toDomain
+import com.odeng.finance.authorization.infrastructure.repository.JpaUserRepository
 import org.springframework.stereotype.Repository
 
+/**
+ * Infrastructure adapter that implements the domain UserRepository port using JPA.
+ * This is the Adapter in the Ports & Adapters (Hexagonal Architecture) pattern.
+ */
 @Repository
-class DefaultUserRepository(
+class UserRepositoryAdapter(
     private val jpaUserRepository: JpaUserRepository
 ) : UserRepository {
 
@@ -30,3 +34,4 @@ class DefaultUserRepository(
         return savedEntity.toDomain()
     }
 }
+

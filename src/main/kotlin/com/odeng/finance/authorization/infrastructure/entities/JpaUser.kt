@@ -1,4 +1,4 @@
-package com.odeng.finance.authorization.infastructure.entities
+package com.odeng.finance.authorization.infrastructure.entities
 
 import com.odeng.finance.authorization.domain.model.User
 import com.odeng.finance.authorization.domain.model.UserStatus

@@ -1,9 +1,13 @@
 package com.odeng.finance.authorization.domain
 
+import com.odeng.finance.authorization.application.CreateUserInput
 import com.odeng.finance.common.InputValidator
 import com.odeng.finance.common.ValidationResult
 
-
+/**
+ * Domain interface for validating user creation input.
+ * Combines domain validation rules with infrastructure-based uniqueness checks.
+ */
 interface CreateUserInputValidator : InputValidator<CreateUserInput> {
 
     override fun validate(input: CreateUserInput): ValidationResult {
@@ -12,7 +16,6 @@ interface CreateUserInputValidator : InputValidator<CreateUserInput> {
         val passwordResult = validatePassword(input.password)
 
         val resultList = listOf(usernameResult, emailResult, passwordResult)
-
 
         return ValidationResult(
             isValid = resultList.all { it.isValid },
@@ -25,5 +28,4 @@ interface CreateUserInputValidator : InputValidator<CreateUserInput> {
     fun validateEmail(email: String): ValidationResult
 
     fun validatePassword(password: String): ValidationResult
-
 }

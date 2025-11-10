@@ -1,12 +1,16 @@
-package com.odeng.finance.authorization.domain.impl
+package com.odeng.finance.authorization.infrastructure.impl
 
-import com.odeng.finance.authorization.domain.HashService
+import com.odeng.finance.authorization.infrastructure.HashService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
+/**
+ * BCrypt implementation of HashService.
+ * Uses Spring Security's BCryptPasswordEncoder for password hashing.
+ */
 @Service
-class DefaultHashService : HashService {
-    private final val passwordEncoder = BCryptPasswordEncoder()
+class BCryptHashService : HashService {
+    private val passwordEncoder = BCryptPasswordEncoder()
 
     override fun hash(raw: String): String {
         return passwordEncoder.encode(raw)
@@ -16,3 +20,4 @@ class DefaultHashService : HashService {
         return passwordEncoder.matches(raw, hashed)
     }
 }
+
