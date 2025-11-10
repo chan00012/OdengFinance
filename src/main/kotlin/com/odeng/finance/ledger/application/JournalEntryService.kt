@@ -1,6 +1,6 @@
 package com.odeng.finance.ledger.application
 
-import com.odeng.finance.ledger.domain.model.AccountRepository
+import com.odeng.finance.ledger.domain.AccountRepository
 import com.odeng.finance.ledger.domain.model.Direction
 import com.odeng.finance.ledger.domain.model.EntryItem
 import com.odeng.finance.ledger.domain.EntryItemRepository
