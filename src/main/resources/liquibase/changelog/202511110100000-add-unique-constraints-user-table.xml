@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Changeset 1: Add unique constraint to username column -->
+    <changeSet id="202511110100000-1" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <uniqueConstraintExists schemaName="authz" tableName="user" constraintName="uk_user_username"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint
+                schemaName="authz"
+                tableName="user"
+                columnNames="username"
+                constraintName="uk_user_username"/>
+    </changeSet>
+
+    <!-- Changeset 2: Add unique constraint to email column -->
+    <changeSet id="202511110100000-2" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <uniqueConstraintExists schemaName="authz" tableName="user" constraintName="uk_user_email"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint
+                schemaName="authz"
+                tableName="user"
+                columnNames="email"
+                constraintName="uk_user_email"/>
+    </changeSet>
+
+</databaseChangeLog>
+

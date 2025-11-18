@@ -15,7 +15,7 @@ class UserInputValidator {
      * Validates email format according to business rules.
      */
     fun validateEmailFormat(email: String): ValidationResult = when {
-        !EMAIL_REGEX.matches(email) -> ValidationResult.failed("Invalid email.")
+        !EMAIL_REGEX.matches(email) -> ValidationResult.failed("Invalid email")
         else -> ValidationResult.ok()
     }
 
@@ -28,11 +28,11 @@ class UserInputValidator {
      * - Cannot contain spaces
      */
     fun validatePassword(password: String): ValidationResult = when {
-        password.length !in 7..31 -> ValidationResult.failed("Password must be 7-31 characters.")
-        password.none { !it.isLetterOrDigit() } -> ValidationResult.failed("Password must contain special character.")
-        password.none { it.isUpperCase() } -> ValidationResult.failed("Password must contain uppercase letter.")
-        password.none { it.isLowerCase() } -> ValidationResult.failed("Password must contain lowercase letter.")
-        password.any { it.isWhitespace() } -> ValidationResult.failed("Password cannot contain spaces.")
+        password.length !in 7..31 -> ValidationResult.failed("Password must be 7-31 characters")
+        password.none { !it.isLetterOrDigit() } -> ValidationResult.failed("Password must contain special character")
+        password.none { it.isUpperCase() } -> ValidationResult.failed("Password must contain uppercase letter")
+        password.none { it.isLowerCase() } -> ValidationResult.failed("Password must contain lowercase letter")
+        password.any { it.isWhitespace() } -> ValidationResult.failed("Password cannot contain spaces")
         else -> ValidationResult.ok()
     }
 }

@@ -30,10 +30,10 @@ class JpaUser(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_generator")
     val id: Long? = null,
 
-    @Column(name = "username", nullable = false, updatable = false)
+    @Column(name = "username", nullable = false, updatable = false, unique = true)
     val username: String,
 
-    @Column(name = "email", nullable = false, updatable = false)
+    @Column(name = "email", nullable = false, updatable = false, unique = true)
     val email: String,
 
     @Column(name = "hash_password", nullable = false)

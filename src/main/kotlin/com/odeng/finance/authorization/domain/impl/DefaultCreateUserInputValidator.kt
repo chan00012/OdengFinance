@@ -17,7 +17,7 @@ class DefaultCreateUserInputValidator(
     private val domainValidator = UserInputValidator()
 
     override fun validateUsername(username: String): ValidationResult = when {
-        !uniquenessChecker.isUsernameAvailable(username) -> ValidationResult.failed("Username is already taken.")
+        !uniquenessChecker.isUsernameAvailable(username) -> ValidationResult.failed("Username is already taken")
         else -> ValidationResult.ok()
     }
 
@@ -30,7 +30,7 @@ class DefaultCreateUserInputValidator(
 
         // Then check uniqueness (infrastructure check)
         return when {
-            !uniquenessChecker.isEmailAvailable(email) -> ValidationResult.failed("Email is already associated with another user.")
+            !uniquenessChecker.isEmailAvailable(email) -> ValidationResult.failed("Email is already associated with another user")
             else -> ValidationResult.ok()
         }
     }

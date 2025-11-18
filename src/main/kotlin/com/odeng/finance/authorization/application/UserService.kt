@@ -27,10 +27,6 @@ class UserService(
     /**
      * Creates a new user.
      * Orchestrates validation, password hashing, domain logic, and persistence.
-     *
-     * @param input The user creation input
-     * @return The created User
-     * @throws ValidationException if validation fails
      */
     fun createUser(input: CreateUserInput): User {
         logger.info { "Creating user with input=$input" }
@@ -58,6 +54,10 @@ class UserService(
 
         logger.info { "User created successfully: username=${savedUser.username}, id=${savedUser.id}" }
         return savedUser
+    }
+
+    fun initiateVerification() {
+
     }
 }
 
