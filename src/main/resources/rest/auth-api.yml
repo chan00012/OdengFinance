@@ -18,7 +18,7 @@ tags:
     description: Operations related to authentication and authorization
 
 paths:
-  /api/v1/authenticate:
+  /auth/v1/authenticate:
     post:
       tags:
         - Auth
