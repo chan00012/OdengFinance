@@ -1,5 +1,5 @@
 package com.odeng.finance.auth.domain.model
 
-data class Session(
+data class AuthN(
     val token: String
 )

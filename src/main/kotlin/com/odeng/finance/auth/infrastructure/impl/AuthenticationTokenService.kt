@@ -1,13 +1,12 @@
 package com.odeng.finance.auth.infrastructure.impl
 
 import com.odeng.finance.auth.domain.model.User
-import com.odeng.finance.auth.domain.model.UserGroup
 import com.odeng.finance.auth.domain.model.UserStatus
 import com.odeng.finance.auth.infrastructure.TokenService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.stereotype.Component
-import java.util.Date
+import java.util.*
 
 @Component
 class AuthenticationTokenService(
@@ -62,7 +61,6 @@ class AuthenticationTokenService(
             email = claims.get("email", String::class.java),
             hashPassword = "",
             status = UserStatus.valueOf(claims.get("status", String::class.java)),
-            userGroups = emptyList()
         )
     }
 }

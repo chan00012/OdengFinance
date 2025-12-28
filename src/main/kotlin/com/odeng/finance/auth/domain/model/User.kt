@@ -10,5 +10,4 @@ data class User(
     val email: String,
     val hashPassword: String,
     val status: UserStatus,
-    val userGroups: List<UserGroup> = emptyList()
 )

@@ -13,7 +13,7 @@ class AuthController(
     private val authService: AuthService
 ) : AuthApi {
     override fun authenticate(authenticationRequest: AuthenticationRequest): ResponseEntity<AuthenticationResponse> {
-        val session = authService.authenticate(
+        val authn = authService.authenticate(
             AuthenticationInput(
                 email = authenticationRequest.email,
                 password = authenticationRequest.password
@@ -25,7 +25,7 @@ class AuthController(
             .ok()
             .body(
                 AuthenticationResponse(
-                    token = session.token
+                    token = authn.token
                 )
             )
     }

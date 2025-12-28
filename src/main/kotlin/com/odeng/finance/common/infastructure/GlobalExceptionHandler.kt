@@ -32,11 +32,11 @@ class GlobalExceptionHandler {
         ex: AuthException,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse> {
-        logger.warn { "Authentication failed: ${ex.message}" }
+        logger.error { "Authentication failed: ${ex.message}" }
 
         val errorResponse = ErrorResponse(
             timestamp = Instant.now(),
-            status = HttpStatus.UNAUTHORIZED.value(),
+            status = ex.httpStatus.value(),
             error = "Unauthorized",
             messages = listOf(ex.message ?: "Authentication failed")
         )
@@ -55,7 +55,7 @@ class GlobalExceptionHandler {
         ex: ValidationException,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse> {
-        logger.warn { "Validation failed: ${ex.errors}" }
+        logger.error { "Validation failed: ${ex.errors}" }
 
         val errorResponse = ErrorResponse(
             timestamp = Instant.now(),
@@ -81,7 +81,7 @@ class GlobalExceptionHandler {
         val errors = ex.bindingResult.fieldErrors
             .map { "${it.field}: ${it.defaultMessage}" }
 
-        logger.warn { "Bean validation failed: $errors" }
+        logger.error { "Bean validation failed: $errors" }
 
         val errorResponse = ErrorResponse(
             timestamp = Instant.now(),
@@ -104,7 +104,7 @@ class GlobalExceptionHandler {
         ex: IllegalArgumentException,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse> {
-        logger.warn { "Illegal argument: ${ex.message}" }
+        logger.error { "Illegal argument: ${ex.message}" }
 
         val errorResponse = ErrorResponse(
             timestamp = Instant.now(),
@@ -127,7 +127,7 @@ class GlobalExceptionHandler {
         ex: IllegalStateException,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse> {
-        logger.warn { "Illegal state: ${ex.message}" }
+        logger.error { "Illegal state: ${ex.message}" }
 
         val errorResponse = ErrorResponse(
             timestamp = Instant.now(),

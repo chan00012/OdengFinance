@@ -1,6 +1,6 @@
 package com.odeng.finance.common.infastructure
 
-import com.odeng.finance.auth.infrastructure.impl.AuthenticationTokenService
+import com.odeng.finance.auth.application.AuthService
 import com.odeng.finance.auth.infrastructure.security.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,8 +14,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig {
 
     @Bean
-    fun jwtAuthenticationFilter(authenticationTokenService: AuthenticationTokenService): JwtAuthenticationFilter {
-        return JwtAuthenticationFilter(authenticationTokenService)
+    fun jwtAuthenticationFilter(authService: AuthService): JwtAuthenticationFilter {
+        return JwtAuthenticationFilter(authService)
     }
 
 
@@ -25,10 +25,15 @@ class SecurityConfig {
             .csrf { it.disable() }
             .authorizeHttpRequests { auth ->
                 auth
+                    // Auth endpoints - public
                     .requestMatchers("/auth/**").permitAll()
                     .requestMatchers("/auth/v1/user/**").permitAll()
-                    .requestMatchers("/api/**").authenticated()
-                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                    // Swagger/OpenAPI endpoints - public
+                    .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
+
+                    // All other requests require authentication
+                    .anyRequest().authenticated()
             }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
 

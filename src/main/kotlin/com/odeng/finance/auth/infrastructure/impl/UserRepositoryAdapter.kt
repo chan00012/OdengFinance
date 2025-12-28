@@ -36,5 +36,9 @@ class UserRepositoryAdapter(
     override fun findByEmail(email: String): User? {
         return jpaUserRepository.findByEmail(email)?.toDomain()
     }
+
+    override fun findByUsername(username: String): User? {
+        return jpaUserRepository.findByUsername(username)?.toDomain()
+    }
 }
 
