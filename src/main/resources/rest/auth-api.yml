@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: OdengFinance Auth API
+  description: API for managing authenticate and authorization related actions in the OdengFinance ledger system
+  version: 1.0.0
+  contact:
+    name: OdengFinance Team
+    email: support@odengfinance.com
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+  - url: https://api.odengfinance.com/v1
+    description: Production server
+
+tags:
+  - name: Auth
+    description: Operations related to authentication and authorization
+
+paths:
+  /api/v1/authenticate:
+    post:
+      tags:
+        - Auth
+      summary: Authenticate login credentials
+      description: Authenticate login credentials
+      operationId: authenticate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+
+components:
+  schemas:
+    AuthenticationRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: The email address of the user
+          example: "john.doe@example.com"
+        password:
+          type: string
+          format: password
+          description: The password for the user account
+          example: "SecureP@ssw0rd"
+    AuthenticationResponse:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          description: The authentication token in jwt format
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"

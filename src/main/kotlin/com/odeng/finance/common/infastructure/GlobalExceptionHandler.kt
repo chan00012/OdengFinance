@@ -1,5 +1,6 @@
 package com.odeng.finance.common.infastructure
 
+import com.odeng.finance.auth.application.AuthException
 import com.odeng.finance.common.ValidationException
 import com.odeng.finance.interfaces.rest.api.model.ErrorResponse
 import jakarta.servlet.http.HttpServletRequest
@@ -20,6 +21,29 @@ class GlobalExceptionHandler {
 
     private companion object {
         val logger = KotlinLogging.logger {}
+    }
+
+    /**
+     * Handles AuthException thrown during authentication.
+     * Returns 401 Unauthorized.
+     */
+    @ExceptionHandler(AuthException::class)
+    fun handleAuthException(
+        ex: AuthException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        logger.warn { "Authentication failed: ${ex.message}" }
+
+        val errorResponse = ErrorResponse(
+            timestamp = Instant.now(),
+            status = HttpStatus.UNAUTHORIZED.value(),
+            error = "Unauthorized",
+            messages = listOf(ex.message ?: "Authentication failed")
+        )
+
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(errorResponse)
     }
 
     /**

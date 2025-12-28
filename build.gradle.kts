@@ -121,7 +121,7 @@ fun org.openapitools.generator.gradle.plugin.tasks.GenerateTask.configureOpenApi
 if (apiSpecsDir.exists()) {
     apiSpecsDir.listFiles { file -> file.extension == "yaml" || file.extension == "yml" }?.forEach { specFile ->
         // Skip common-components.yaml as it's only used for references
-        if (specFile.name == "common-components.yaml") {
+        if (specFile.name == "common-components.yml") {
             return@forEach
         }
 

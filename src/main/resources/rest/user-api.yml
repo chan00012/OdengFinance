@@ -18,7 +18,7 @@ tags:
     description: Operations related to user management
 
 paths:
-  /auth/v1/user:
+  /api/v1/user:
     post:
       tags:
         - User
@@ -39,9 +39,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/CreateUserResponse'
         '400':
-          $ref: './common-components.yaml#/components/responses/BadRequest'
+          $ref: './common-components.yml#/components/responses/BadRequest'
         '500':
-          $ref: './common-components.yaml#/components/responses/InternalServerError'
+          $ref: './common-components.yml#/components/responses/InternalServerError'
 
 components:
   schemas:

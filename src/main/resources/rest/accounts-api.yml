@@ -158,5 +158,5 @@ components:
       example: ACTIVE
 
     ErrorResponse:
-      $ref: './common-components.yaml#/components/schemas/ErrorResponse'
+      $ref: './common-components.yml#/components/schemas/ErrorResponse'
 
