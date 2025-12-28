@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController
  * It acts as an adapter between the REST API layer and the application service layer,
  * following the Hexagonal Architecture pattern.
  */
-@RestController
+//@RestController
 class AccountsController(
     private val accountService: AccountService
 ) : AccountsApi {

@@ -120,6 +120,11 @@ fun org.openapitools.generator.gradle.plugin.tasks.GenerateTask.configureOpenApi
 // Dynamically create generation tasks for each OpenAPI spec file
 if (apiSpecsDir.exists()) {
     apiSpecsDir.listFiles { file -> file.extension == "yaml" || file.extension == "yml" }?.forEach { specFile ->
+        // Skip common-components.yaml as it's only used for references
+        if (specFile.name == "common-components.yaml") {
+            return@forEach
+        }
+
         // Convert filename to task name (e.g., "accounts-api.yaml" -> "generateAccountsApi")
         val taskName = "generate" + specFile.nameWithoutExtension
             .split("-")

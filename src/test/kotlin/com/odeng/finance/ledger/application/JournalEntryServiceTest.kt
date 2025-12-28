@@ -2,8 +2,8 @@ package com.odeng.finance.ledger.application
 
 import com.odeng.finance.common.Currency
 import com.odeng.finance.common.Money
-import com.odeng.finance.ledger.domain.AccountType
-import com.odeng.finance.ledger.domain.Direction
+import com.odeng.finance.ledger.domain.model.AccountType
+import com.odeng.finance.ledger.domain.model.Direction
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
