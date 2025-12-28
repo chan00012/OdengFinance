@@ -18,7 +18,7 @@ tags:
     description: Operations related to user management
 
 paths:
-  /api/v1/user:
+  /auth/v1/user:
     post:
       tags:
         - User

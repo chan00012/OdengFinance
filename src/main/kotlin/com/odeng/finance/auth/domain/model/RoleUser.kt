@@ -1,4 +1,7 @@
 package com.odeng.finance.auth.domain.model
 
-class RoleUser {
+data class RoleUser(
+    val id: Long,
+    val access: AccessType
+) {
 }

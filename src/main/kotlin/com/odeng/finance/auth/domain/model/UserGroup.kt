@@ -1,4 +1,7 @@
 package com.odeng.finance.auth.domain.model
 
-class UserGroup {
+data class UserGroup(
+    val id: Long,
+    val roleUsers: List<RoleUser>
+) {
 }

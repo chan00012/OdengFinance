@@ -35,5 +35,9 @@ class JwtVerificationTokenService(
         TODO("Not yet implemented")
     }
 
+    override fun parse(token: String): User {
+        TODO("Not yet implemented")
+    }
+
 
 }

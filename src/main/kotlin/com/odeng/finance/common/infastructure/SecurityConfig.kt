@@ -1,5 +1,6 @@
 package com.odeng.finance.common.infastructure
 
+import com.odeng.finance.auth.infrastructure.impl.AuthenticationTokenService
 import com.odeng.finance.auth.infrastructure.security.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -13,8 +14,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig {
 
     @Bean
-    fun jwtAuthenticationFilter(): JwtAuthenticationFilter {
-        return JwtAuthenticationFilter()
+    fun jwtAuthenticationFilter(authenticationTokenService: AuthenticationTokenService): JwtAuthenticationFilter {
+        return JwtAuthenticationFilter(authenticationTokenService)
     }
 
 
@@ -25,6 +26,7 @@ class SecurityConfig {
             .authorizeHttpRequests { auth ->
                 auth
                     .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/auth/v1/user/**").permitAll()
                     .requestMatchers("/api/**").authenticated()
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
             }
