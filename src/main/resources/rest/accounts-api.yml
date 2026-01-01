@@ -92,15 +92,9 @@ components:
     CreateAccountRequest:
       type: object
       required:
-        - userGroupId
         - name
         - accountType
       properties:
-        userGroupId:
-          type: integer
-          format: int64
-          description: The ID of the user group that owns this account
-          example: 1
         name:
           type: string
           description: The name of the account
