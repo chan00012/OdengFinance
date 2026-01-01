@@ -60,7 +60,7 @@ class DefaultAuthService(
                 userGroups = userGroups
             )
         } catch (e: Exception) {
-            logger.error { "Failed to parse JWT token: ${e.message}" }
+            logger.error(e) { "Failed to parse JWT token: ${e.message}" }
             throw AuthException.Companion.FORBIDDEN
         }
     }

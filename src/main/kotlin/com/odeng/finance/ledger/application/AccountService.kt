@@ -1,34 +1,10 @@
 package com.odeng.finance.ledger.application
 
 import com.odeng.finance.ledger.domain.model.Account
-import com.odeng.finance.ledger.domain.AccountRepository
-import com.odeng.finance.ledger.domain.model.AccountStatus
-import mu.KotlinLogging
-import org.springframework.stereotype.Service
 
-@Service
-class AccountService(
-    private val accountRepository: AccountRepository
-) {
+interface AccountService {
 
-    private companion object {
-        val logger = KotlinLogging.logger {}
-    }
+    fun create(input: CreateAccountInput): Account
 
-    fun createAccount(input: CreateAccountInput): Account {
-        val account = Account(
-            userGroupId = input.userGroupId,
-            name = input.name,
-            accountType = input.accountType,
-            accountStatus = AccountStatus.ACTIVE
-        )
-
-        val savedAccount = accountRepository.create(account)
-        logger.info { "Account Created: $savedAccount" }
-        return savedAccount
-    }
-
-    fun getAccountById(id: Long): Account? {
-        return accountRepository.getById(id)
-    }
+    fun getByAccountId(id: Long): Account?
 }

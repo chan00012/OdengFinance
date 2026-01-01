@@ -5,6 +5,7 @@ import com.odeng.finance.auth.domain.model.UserStatus
 import com.odeng.finance.auth.infrastructure.TokenService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
+import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -13,6 +14,10 @@ class AuthenticationTokenService(
     private val validUntil: Long = 60000,
     private val secretKey: String = "your-256-bit-secret-key-change-this-in-production-please-make-it-secure"
 ) : TokenService<User> {
+    private companion object {
+        val logger = KotlinLogging.logger { }
+    }
+
     override fun generate(body: User): String {
         val now = Date()
         val expireAt = Date(now.time + validUntil)
@@ -45,6 +50,7 @@ class AuthenticationTokenService(
 
             true
         } catch (e: Exception) {
+            logger.error(e) { "Failed to validate JWT" }
             false
         }
     }

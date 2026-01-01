@@ -1,5 +1,6 @@
 package com.odeng.finance.ledger.application
 
+import com.odeng.finance.ledger.application.impl.DefaultAccountService
 import com.odeng.finance.ledger.domain.model.AccountStatus
 import com.odeng.finance.ledger.domain.model.AccountType
 import org.assertj.core.api.Assertions.assertThat
@@ -13,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles
 class AccountServiceTest {
 
     @Autowired
-    private lateinit var accountService: AccountService
+    private lateinit var accountService: DefaultAccountService
 
     @Test
     fun `should create account and persist to database`() {
@@ -25,7 +26,7 @@ class AccountServiceTest {
         )
 
         // When
-        val createdAccount = accountService.createAccount(input)
+        val createdAccount = accountService.create(input)
 
         // Then
         assertThat(createdAccount).isNotNull
@@ -36,7 +37,7 @@ class AccountServiceTest {
         assertThat(createdAccount.accountStatus).isEqualTo(AccountStatus.ACTIVE)
 
         // Verify it's actually in the database
-        val savedEntity = accountService.getAccountById(createdAccount.id!!)
+        val savedEntity = accountService.getByAccountId(createdAccount.id!!)
         assertThat(savedEntity).isNotNull
         assertThat(savedEntity?.name).isEqualTo("Test Account")
         assertThat(savedEntity?.accountType).isEqualTo(AccountType.ASSET)

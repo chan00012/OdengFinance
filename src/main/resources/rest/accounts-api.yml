@@ -14,14 +14,14 @@ servers:
     description: Production server
 
 tags:
-  - name: Accounts
+  - name: Account
     description: Operations related to financial accounts
 
 paths:
   /api/v1/accounts:
     post:
       tags:
-        - Accounts
+        - Account
       summary: Create a new account
       description: Creates a new financial account in the ledger system
       operationId: createAccount
@@ -40,42 +40,6 @@ paths:
                 $ref: '#/components/schemas/AccountResponse'
         '400':
           description: Invalid request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-
-  /api/v1/accounts/{accountId}:
-    get:
-      tags:
-        - Accounts
-      summary: Get account by ID
-      description: Retrieves a specific account by its unique identifier
-      operationId: getAccountById
-      parameters:
-        - name: accountId
-          in: path
-          required: true
-          description: The unique identifier of the account
-          schema:
-            type: integer
-            format: int64
-            example: 12345
-      responses:
-        '200':
-          description: Account retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountResponse'
-        '404':
-          description: Account not found
           content:
             application/json:
               schema:

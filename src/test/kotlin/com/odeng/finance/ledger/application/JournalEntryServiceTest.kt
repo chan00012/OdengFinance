@@ -2,6 +2,7 @@ package com.odeng.finance.ledger.application
 
 import com.odeng.finance.common.Currency
 import com.odeng.finance.common.Money
+import com.odeng.finance.ledger.application.impl.DefaultAccountService
 import com.odeng.finance.ledger.domain.model.AccountType
 import com.odeng.finance.ledger.domain.model.Direction
 import org.assertj.core.api.Assertions.assertThat
@@ -19,7 +20,7 @@ class JournalEntryServiceTest {
     private lateinit var journalEntryService: JournalEntryService
 
     @Autowired
-    private lateinit var accountService: AccountService
+    private lateinit var accountService: DefaultAccountService
 
     @Test
     fun `should model realistic personal finance scenario with World account and opening balance`() {
@@ -28,7 +29,7 @@ class JournalEntryServiceTest {
         // ============================================================================
 
         // 1. World Account (EQUITY) - Represents everything outside the tracking system
-        val worldAccount = accountService.createAccount(
+        val worldAccount = accountService.create(
             CreateAccountInput(
                 name = "World (External)",
                 accountType = AccountType.EQUITY,
@@ -37,7 +38,7 @@ class JournalEntryServiceTest {
         )
 
         // 2. Asset Accounts - Things you own
-        val savingsAccount = accountService.createAccount(
+        val savingsAccount = accountService.create(
             CreateAccountInput(
                 name = "Savings Account",
                 accountType = AccountType.ASSET,
@@ -46,7 +47,7 @@ class JournalEntryServiceTest {
         )
 
         // 3. Income Accounts - Money coming in
-        val salaryIncomeAccount = accountService.createAccount(
+        val salaryIncomeAccount = accountService.create(
             CreateAccountInput(
                 name = "Salary Income",
                 accountType = AccountType.INCOME,
@@ -55,7 +56,7 @@ class JournalEntryServiceTest {
         )
 
         // 4. Expense Accounts - Money going out
-        val rentExpenseAccount = accountService.createAccount(
+        val rentExpenseAccount = accountService.create(
             CreateAccountInput(
                 name = "Rent Expense",
                 accountType = AccountType.EXPENSE,
@@ -63,7 +64,7 @@ class JournalEntryServiceTest {
             )
         )
 
-        val groceriesExpenseAccount = accountService.createAccount(
+        val groceriesExpenseAccount = accountService.create(
             CreateAccountInput(
                 name = "Groceries Expense",
                 accountType = AccountType.EXPENSE,
@@ -71,7 +72,7 @@ class JournalEntryServiceTest {
             )
         )
 
-        val utilitiesExpenseAccount = accountService.createAccount(
+        val utilitiesExpenseAccount = accountService.create(
             CreateAccountInput(
                 name = "Utilities Expense",
                 accountType = AccountType.EXPENSE,

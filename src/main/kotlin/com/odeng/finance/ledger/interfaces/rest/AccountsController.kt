@@ -2,7 +2,7 @@ package com.odeng.finance.ledger.interfaces.rest
 
 import com.odeng.finance.auth.application.UserGroupService
 import com.odeng.finance.common.CurrentAuthzContext
-import com.odeng.finance.interfaces.rest.api.AccountsApi
+import com.odeng.finance.interfaces.rest.api.AccountApi
 import com.odeng.finance.interfaces.rest.api.model.AccountResponse
 import com.odeng.finance.interfaces.rest.api.model.AccountStatus
 import com.odeng.finance.interfaces.rest.api.model.AccountType
@@ -26,7 +26,7 @@ class AccountsController(
     private val accountService: AccountService,
     private val userGroupService: UserGroupService,
     private val currentAuthzContext: CurrentAuthzContext
-) : AccountsApi {
+) : AccountApi {
 
     private companion object {
         val logger = KotlinLogging.logger {}
@@ -43,7 +43,7 @@ class AccountsController(
 
         // Call domain service
         val userGroup = userGroupService.create(authz.user.id!!)
-        val account = accountService.createAccount(
+        val account = accountService.create(
             CreateAccountInput(
                 userGroupId = userGroup.id,
                 name = createAccountRequest.name,
@@ -62,27 +62,6 @@ class AccountsController(
 
         logger.info { "Account created successfully: ${response.id}" }
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
-    }
-
-    /**
-     * Retrieves an account by its ID.
-     */
-    override fun getAccountById(accountId: Long): ResponseEntity<AccountResponse> {
-        logger.info { "Fetching account with ID: $accountId" }
-
-        val account = accountService.getAccountById(accountId)
-            ?: return ResponseEntity.notFound().build()
-
-        val response = AccountResponse(
-            id = account.id!!,
-            userGroupId = account.userGroupId,
-            name = account.name,
-            accountType = mapAccountTypeToApi(account.accountType),
-            accountStatus = mapAccountStatusToApi(account.accountStatus)
-        )
-
-        logger.info { "Account retrieved successfully: ${response.id}" }
-        return ResponseEntity.ok(response)
     }
 
     // ============================================================================
