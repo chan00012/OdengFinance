@@ -51,6 +51,42 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /api/v1/accounts/{userId}:
+    get:
+      tags:
+        - Account
+      summary: Get accounts under a user ID
+      description: Retrieves all accounts associated with a specific user
+      operationId: getAccountsByUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The unique identifier of the user
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Accounts retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountListResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   schemas:
     CreateAccountRequest:
@@ -95,6 +131,32 @@ components:
           $ref: '#/components/schemas/AccountType'
         accountStatus:
           $ref: '#/components/schemas/AccountStatus'
+
+    AccountListResponse:
+      type: object
+      required:
+        - accounts
+      properties:
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponse'
+          example:
+            - id: 1
+              userGroupId: 100
+              name: "Savings Account"
+              accountType: "ASSET"
+              accountStatus: "ACTIVE"
+            - id: 2
+              userGroupId: 100
+              name: "Checking Account"
+              accountType: "ASSET"
+              accountStatus: "ACTIVE"
+            - id: 3
+              userGroupId: 100
+              name: "Credit Card"
+              accountType: "LIABILITY"
+              accountStatus: "ACTIVE"
 
     AccountType:
       type: string

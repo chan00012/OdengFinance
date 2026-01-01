@@ -7,4 +7,6 @@ interface AccountService {
     fun create(input: CreateAccountInput): Account
 
     fun getByAccountId(id: Long): Account?
+
+    fun getByUserId(userId: Long): List<Account>
 }

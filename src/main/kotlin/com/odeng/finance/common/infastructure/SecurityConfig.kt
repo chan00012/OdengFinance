@@ -30,7 +30,13 @@ class SecurityConfig {
                     .requestMatchers("/auth/v1/user/**").permitAll()
 
                     // Swagger/OpenAPI endpoints - public
-                    .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
+                    .requestMatchers(
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/swagger-resources/**",
+                        "/v3/api-docs/**",
+                        "/webjars/**"
+                    ).permitAll()
 
                     // All other requests require authentication
                     .anyRequest().authenticated()

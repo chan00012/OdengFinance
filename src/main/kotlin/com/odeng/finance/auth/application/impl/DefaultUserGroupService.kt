@@ -12,4 +12,8 @@ class DefaultUserGroupService(private val userGroupRepository: UserGroupReposito
         return userGroupRepository.create(userId)
 
     }
+
+    override fun findByUserId(userId: Long): List<UserGroup> {
+        return userGroupRepository.getByUserId(userId)
+    }
 }

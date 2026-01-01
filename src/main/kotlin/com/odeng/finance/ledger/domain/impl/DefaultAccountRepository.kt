@@ -34,4 +34,8 @@ class DefaultAccountRepository(
     override fun getById(id: Long): Account {
         return jpaAccountRepository.findById(id).getOrNull()?.toDomain() ?: error("Account with id $id not found")
     }
+
+    override fun getByUserGroupIds(userGroupIds: List<Long>): List<Account> {
+        return jpaAccountRepository.findByUserGroupIdIn(userGroupIds).map { it.toDomain() }
+    }
 }

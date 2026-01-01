@@ -9,7 +9,7 @@ import java.util.*
 
 @Component
 class JwtVerificationTokenService(
-    private val validUntil: Long = 60000,
+    private val validUntil: Long = 3600000,
     private val secretKey: String = "your-256-bit-secret-key-change-this-in-production-please-make-it-secure"
 ) : TokenService<User> {
     override fun generate(body: User): String {
