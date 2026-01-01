@@ -3,6 +3,7 @@ package com.odeng.finance.auth.application.impl
 import com.odeng.finance.auth.application.AuthException
 import com.odeng.finance.auth.application.AuthService
 import com.odeng.finance.auth.application.AuthenticationInput
+import com.odeng.finance.auth.domain.UserGroupRepository
 import com.odeng.finance.auth.domain.UserRepository
 import com.odeng.finance.auth.domain.model.AuthN
 import com.odeng.finance.auth.domain.model.AuthZ
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class DefaultAuthService(
     private val userRepository: UserRepository,
+    private val userGroupRepository: UserGroupRepository,
     private val hashService: HashService,
     private val authenticationTokenService: AuthenticationTokenService
 ) : AuthService {
@@ -42,6 +44,7 @@ class DefaultAuthService(
     }
 
     override fun authorize(token: String): AuthZ {
+        logger.info("Authorizing user with token: ${token.substring(0, 5)}*****${token.substring(token.length -5, token.length)}")
         if (!authenticationTokenService.validate(token)) {
             logger.error { "Invalid JWT token" }
             throw AuthException.Companion.FORBIDDEN
@@ -50,10 +53,11 @@ class DefaultAuthService(
         return try {
             val userClaim = authenticationTokenService.parse(token)
             val user = userRepository.findByUserId(userClaim.id!!)!!
+            val userGroups = userGroupRepository.getByUserId(user.id!!)
 
             AuthZ(
                 user = user,
-                userGroups = emptyList()
+                userGroups = userGroups
             )
         } catch (e: Exception) {
             logger.error { "Failed to parse JWT token: ${e.message}" }

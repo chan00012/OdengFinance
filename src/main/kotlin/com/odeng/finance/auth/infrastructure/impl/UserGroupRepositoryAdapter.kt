@@ -8,6 +8,7 @@ import com.odeng.finance.auth.infrastructure.entities.JpaUserRole
 import com.odeng.finance.auth.infrastructure.entities.JpaUserRole.Companion.toDomain
 import com.odeng.finance.auth.infrastructure.repository.JpaUserGroupRepository
 import com.odeng.finance.auth.infrastructure.repository.JpaUserRoleRepository
+import com.odeng.finance.common.BusinessException
 import mu.KotlinLogging
 import org.springframework.stereotype.Repository
 
@@ -36,5 +37,27 @@ class UserGroupRepositoryAdapter(
         ).also {
             logger.info { "User group created: $it" }
         }
+    }
+
+    override fun getByUserId(userId: Long): List<UserGroup> {
+        val roleUserEntities = jpaUserRoleRepository.findByUserId(userId)
+
+        return roleUserEntities.groupBy { it.userGroupId }.map {
+            UserGroup(
+                id = it.key,
+                userRoles = it.value.map { ur -> ur.toDomain() }
+            )
+        }
+    }
+
+    override fun getByUserGroup(userGroupId: Long): UserGroup {
+        val userGroupEntity = jpaUserGroupRepository.findById(userGroupId)
+            .orElseThrow { BusinessException("User group not found") }
+        val roleUserEntities = jpaUserRoleRepository.findByUserGroupId(userGroupEntity.id!!)
+
+        return UserGroup(
+            id = userGroupId,
+            userRoles = roleUserEntities.map { it.toDomain() }
+        )
     }
 }
