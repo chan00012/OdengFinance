@@ -1,6 +1,7 @@
 package com.odeng.finance.auth.infrastructure.security
 
 import com.odeng.finance.auth.application.AuthService
+import com.odeng.finance.auth.application.impl.DefaultAuthService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -28,7 +29,7 @@ class JwtAuthenticationFilter(
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             val token = authHeader.substring(7)
 
-            val authz = authService.authorized(token)
+            val authz = authService.authorize(token)
             val authentication = UsernamePasswordAuthenticationToken(
                 authz,
                 null,

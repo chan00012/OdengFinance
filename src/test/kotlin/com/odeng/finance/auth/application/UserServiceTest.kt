@@ -1,5 +1,6 @@
 package com.odeng.finance.auth.application
 
+import com.odeng.finance.auth.application.impl.DefaultUserService
 import com.odeng.finance.auth.domain.model.UserStatus
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -13,7 +14,7 @@ import java.util.UUID
 class UserServiceTest {
 
     @Autowired
-    private lateinit var userService: UserService
+    private lateinit var defaultUserService: DefaultUserService
 
     @Test
     fun `should successfully create a user with valid input`() {
@@ -27,7 +28,7 @@ class UserServiceTest {
         )
 
         // When: Creating a new user
-        val createdUser = userService.createUser(createUserInput)
+        val createdUser = defaultUserService.create(createUserInput)
 
         // Then: User should be created successfully with correct properties
         assertThat(createdUser).isNotNull

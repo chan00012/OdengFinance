@@ -1,6 +1,6 @@
 package com.odeng.finance.common.infastructure
 
-import com.odeng.finance.auth.application.AuthService
+import com.odeng.finance.auth.application.impl.DefaultAuthService
 import com.odeng.finance.auth.infrastructure.security.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,8 +14,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig {
 
     @Bean
-    fun jwtAuthenticationFilter(authService: AuthService): JwtAuthenticationFilter {
-        return JwtAuthenticationFilter(authService)
+    fun jwtAuthenticationFilter(defaultAuthService: DefaultAuthService): JwtAuthenticationFilter {
+        return JwtAuthenticationFilter(defaultAuthService)
     }
 
 

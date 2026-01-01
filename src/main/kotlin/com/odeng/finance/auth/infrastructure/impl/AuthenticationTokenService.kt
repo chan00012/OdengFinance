@@ -24,6 +24,7 @@ class AuthenticationTokenService(
             .expiration(expireAt)
             .claims(
                 mapOf(
+                    "id" to body.id,
                     "username" to body.username,
                     "email" to body.email,
                     "status" to body.status,
@@ -57,6 +58,7 @@ class AuthenticationTokenService(
             .payload
 
         return User(
+            id = claims.get("id", Number::class.java)?.toLong(),
             username = claims.get("username", String::class.java),
             email = claims.get("email", String::class.java),
             hashPassword = "",

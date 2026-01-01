@@ -33,6 +33,10 @@ class UserRepositoryAdapter(
         return savedEntity.toDomain()
     }
 
+    override fun findByUserId(id: Long): User? {
+        return jpaUserRepository.findById(id).orElse(null)?.toDomain()
+    }
+
     override fun findByEmail(email: String): User? {
         return jpaUserRepository.findByEmail(email)?.toDomain()
     }

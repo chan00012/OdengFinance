@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Changeset 1: Create sequence for user_role ID generation -->
+    <changeSet id="202601020010000-1" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists schemaName="authz" sequenceName="user_role_seq"/>
+            </not>
+        </preConditions>
+        <createSequence schemaName="authz" sequenceName="user_role_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <!-- Changeset 2: Create user_role table -->
+    <changeSet id="202601020010000-2" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="authz" tableName="user_role"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="authz" tableName="user_role">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_user_role"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_group_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="access_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_on" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_on" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="updated_by" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Changeset 3: Create user_role audit table -->
+    <changeSet id="202601020010000-3" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="authz" tableName="user_role_aud"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="authz" tableName="user_role_aud">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rev" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revtype" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+            <column name="user_group_id" type="BIGINT"/>
+            <column name="access_type" type="VARCHAR(50)"/>
+            <column name="created_on" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT"/>
+            <column name="updated_on" type="TIMESTAMP"/>
+            <column name="updated_by" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Changeset 4: Add primary key to user_role_aud table -->
+    <changeSet id="202601020010000-4" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists schemaName="authz" tableName="user_role_aud" primaryKeyName="pk_user_role_aud"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey
+                schemaName="authz"
+                tableName="user_role_aud"
+                columnNames="id, rev"
+                constraintName="pk_user_role_aud"/>
+    </changeSet>
+
+</databaseChangeLog>
+

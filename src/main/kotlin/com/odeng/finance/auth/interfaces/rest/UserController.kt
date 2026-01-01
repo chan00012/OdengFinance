@@ -2,6 +2,7 @@ package com.odeng.finance.auth.interfaces.rest
 
 import com.odeng.finance.auth.application.CreateUserInput
 import com.odeng.finance.auth.application.UserService
+import com.odeng.finance.auth.application.impl.DefaultUserService
 import com.odeng.finance.interfaces.rest.api.UserApi
 import com.odeng.finance.interfaces.rest.api.model.CreateUserRequest
 import com.odeng.finance.interfaces.rest.api.model.CreateUserResponse
@@ -20,7 +21,7 @@ class UserController(
 
     override fun createUser(createUserRequest: CreateUserRequest): ResponseEntity<CreateUserResponse> {
         logger.info { "Creating user with request: $createUserRequest" }
-        val user = userService.createUser(
+        val user = userService.create(
             CreateUserInput(
                 username = createUserRequest.username,
                 email = createUserRequest.email,
