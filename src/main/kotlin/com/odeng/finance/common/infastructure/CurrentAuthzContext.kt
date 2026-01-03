@@ -1,4 +1,4 @@
-package com.odeng.finance.common
+package com.odeng.finance.common.infastructure
 
 import com.odeng.finance.auth.application.AuthException
 import com.odeng.finance.auth.domain.model.AuthZ
@@ -12,6 +12,6 @@ class CurrentAuthzContext {
         return SecurityContextHolder.getContext()
             .authentication
             ?.principal as? AuthZ
-            ?: throw AuthException.FORBIDDEN
+            ?: throw AuthException.Companion.FORBIDDEN
     }
 }

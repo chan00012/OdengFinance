@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.authorization.AuthorizationDeniedException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -138,6 +139,29 @@ class GlobalExceptionHandler {
 
         return ResponseEntity
             .status(HttpStatus.CONFLICT)
+            .body(errorResponse)
+    }
+
+    /**
+     * Handles AuthorizationDeniedException thrown by Spring Security @PreAuthorize.
+     * Returns 403 Forbidden.
+     */
+    @ExceptionHandler(AuthorizationDeniedException::class)
+    fun handleAuthorizationDeniedException(
+        ex: AuthorizationDeniedException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        logger.error { "Authorization denied: ${ex.message}" }
+
+        val errorResponse = ErrorResponse(
+            timestamp = Instant.now(),
+            status = HttpStatus.FORBIDDEN.value(),
+            error = "Forbidden",
+            messages = listOf("Access denied")
+        )
+
+        return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
             .body(errorResponse)
     }
 

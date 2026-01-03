@@ -11,7 +11,7 @@ import java.util.*
 
 @Component
 class AuthenticationTokenService(
-    private val validUntil: Long = 60000,
+    private val validUntil: Long = 7200000, // 2 hours in milliseconds (2 * 60 * 60 * 1000)
     private val secretKey: String = "your-256-bit-secret-key-change-this-in-production-please-make-it-secure"
 ) : TokenService<User> {
     private companion object {

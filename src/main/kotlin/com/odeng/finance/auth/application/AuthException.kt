@@ -7,6 +7,7 @@ class AuthException(message: String = "Invalid credentials", val httpStatus: Htt
     companion object {
         val UNAUTHORIZED = AuthException("Unauthorized", HttpStatus.UNAUTHORIZED)
         val FORBIDDEN = AuthException("Forbidden", HttpStatus.FORBIDDEN)
+        val ACCESS_DENIED = AuthException("Access denied", HttpStatus.FORBIDDEN)
 
     }
 }

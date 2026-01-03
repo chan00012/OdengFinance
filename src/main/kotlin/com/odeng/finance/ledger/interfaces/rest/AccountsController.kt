@@ -1,19 +1,22 @@
 package com.odeng.finance.ledger.interfaces.rest
 
 import com.odeng.finance.auth.application.UserGroupService
-import com.odeng.finance.common.CurrentAuthzContext
+import com.odeng.finance.common.infastructure.CurrentAuthzContext
 import com.odeng.finance.interfaces.rest.api.AccountApi
 import com.odeng.finance.interfaces.rest.api.model.AccountListResponse
 import com.odeng.finance.interfaces.rest.api.model.AccountResponse
-import com.odeng.finance.interfaces.rest.api.model.AccountStatus
-import com.odeng.finance.interfaces.rest.api.model.AccountType
+import com.odeng.finance.interfaces.rest.api.model.AccountStatus as RestAccountStatus
+import com.odeng.finance.interfaces.rest.api.model.AccountType as RestAccountType
 import com.odeng.finance.interfaces.rest.api.model.CreateAccountRequest
 import com.odeng.finance.ledger.application.AccountService
 import com.odeng.finance.ledger.application.CreateAccountInput
 import com.odeng.finance.ledger.domain.model.Account
+import com.odeng.finance.ledger.domain.model.AccountStatus
+import com.odeng.finance.ledger.domain.model.AccountType
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.RestController
 
 /**
@@ -52,6 +55,7 @@ class AccountsController(
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
+    @PreAuthorize("@permission.isResourceOwner(#userId)")
     override fun getAccountsByUserId(userId: Long): ResponseEntity<AccountListResponse> {
         val accounts = accountService.getByUserId(userId)
 
@@ -77,30 +81,30 @@ class AccountsController(
         )
     }
 
-    private fun AccountType.toDomain(): com.odeng.finance.ledger.domain.model.AccountType {
+    private fun RestAccountType.toDomain(): AccountType {
         return when (this) {
-            AccountType.ASSET -> com.odeng.finance.ledger.domain.model.AccountType.ASSET
-            AccountType.LIABILITY -> com.odeng.finance.ledger.domain.model.AccountType.LIABILITY
-            AccountType.EQUITY -> com.odeng.finance.ledger.domain.model.AccountType.EQUITY
-            AccountType.INCOME -> com.odeng.finance.ledger.domain.model.AccountType.INCOME
-            AccountType.EXPENSE -> com.odeng.finance.ledger.domain.model.AccountType.EXPENSE
+            RestAccountType.ASSET -> AccountType.ASSET
+            RestAccountType.LIABILITY -> AccountType.LIABILITY
+            RestAccountType.EQUITY -> AccountType.EQUITY
+            RestAccountType.INCOME -> AccountType.INCOME
+            RestAccountType.EXPENSE -> AccountType.EXPENSE
         }
     }
 
-    private fun com.odeng.finance.ledger.domain.model.AccountType.toApi(): AccountType {
+    private fun AccountType.toApi(): RestAccountType {
         return when (this) {
-            com.odeng.finance.ledger.domain.model.AccountType.ASSET -> AccountType.ASSET
-            com.odeng.finance.ledger.domain.model.AccountType.LIABILITY -> AccountType.LIABILITY
-            com.odeng.finance.ledger.domain.model.AccountType.EQUITY -> AccountType.EQUITY
-            com.odeng.finance.ledger.domain.model.AccountType.INCOME -> AccountType.INCOME
-            com.odeng.finance.ledger.domain.model.AccountType.EXPENSE -> AccountType.EXPENSE
+            AccountType.ASSET -> RestAccountType.ASSET
+            AccountType.LIABILITY -> RestAccountType.LIABILITY
+            AccountType.EQUITY -> RestAccountType.EQUITY
+            AccountType.INCOME -> RestAccountType.INCOME
+            AccountType.EXPENSE -> RestAccountType.EXPENSE
         }
     }
 
-    private fun com.odeng.finance.ledger.domain.model.AccountStatus.toApi(): AccountStatus {
+    private fun AccountStatus.toApi(): RestAccountStatus {
         return when (this) {
-            com.odeng.finance.ledger.domain.model.AccountStatus.ACTIVE -> AccountStatus.ACTIVE
-            com.odeng.finance.ledger.domain.model.AccountStatus.INACTIVE -> AccountStatus.INACTIVE
+            AccountStatus.ACTIVE -> RestAccountStatus.ACTIVE
+            AccountStatus.INACTIVE -> RestAccountStatus.INACTIVE
         }
     }
 }
