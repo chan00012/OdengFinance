@@ -37,7 +37,11 @@ class DefaultAccountService(
     }
 
     override fun getByUserId(userId: Long): List<Account> {
+        logger.info { "Fetching available accounts for userId: $userId" }
         val userGroups = userGroupService.findByUserId(userId)
-        return accountRepository.getByUserGroupIds(userGroups.map { it.id })
+        val accounts = accountRepository.getByUserGroupIds(userGroups.map { it.id })
+
+        logger.info { "Available accounts for user: $userId are: ${accounts.map { it.id }}" }
+        return accounts
     }
 }

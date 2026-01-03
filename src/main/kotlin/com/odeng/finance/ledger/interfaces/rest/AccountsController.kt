@@ -39,7 +39,7 @@ class AccountsController(
 
     override fun createAccount(createAccountRequest: CreateAccountRequest): ResponseEntity<AccountResponse> {
         val authz = currentAuthzContext.get()
-        logger.info { "Creating account: ${createAccountRequest.name}" }
+        logger.info { "Creating account with request: $createAccountRequest" }
 
         val userGroup = userGroupService.create(authz.user.id!!)
         val account = accountService.create(
@@ -51,7 +51,6 @@ class AccountsController(
         )
 
         val response = account.toApi()
-        logger.info { "Account created successfully: ${response.id}" }
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
