@@ -5,8 +5,6 @@ import com.odeng.finance.common.infastructure.CurrentAuthzContext
 import com.odeng.finance.interfaces.rest.api.AccountApi
 import com.odeng.finance.interfaces.rest.api.model.AccountListResponse
 import com.odeng.finance.interfaces.rest.api.model.AccountResponse
-import com.odeng.finance.interfaces.rest.api.model.AccountStatus as RestAccountStatus
-import com.odeng.finance.interfaces.rest.api.model.AccountType as RestAccountType
 import com.odeng.finance.interfaces.rest.api.model.CreateAccountRequest
 import com.odeng.finance.ledger.application.AccountService
 import com.odeng.finance.ledger.application.CreateAccountInput
@@ -18,6 +16,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.RestController
+import com.odeng.finance.interfaces.rest.api.model.AccountStatus as RestAccountStatus
+import com.odeng.finance.interfaces.rest.api.model.AccountType as RestAccountType
 
 /**
  * REST controller implementation for Accounts API.
@@ -56,7 +56,10 @@ class AccountsController(
 
     @PreAuthorize("@permission.isResourceOwner(#userId)")
     override fun getAccountsByUserId(userId: Long): ResponseEntity<AccountListResponse> {
-        val accounts = accountService.getByUserId(userId)
+        logger.info { "Getting available accounts under userId: $userId" }
+        val userGroups = userGroupService.getByUserId(userId)
+        val accounts = accountService.getByUserGroupIds(userGroups.map { it.id })
+        logger.info { "Available accounts for userId: $userId are: ${accounts.map { it.id }}" }
 
         val response = AccountListResponse(
             accounts = accounts.map { it.toApi() }

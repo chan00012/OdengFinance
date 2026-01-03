@@ -53,6 +53,7 @@ class DefaultAuthService(
         return try {
             val userClaim = authenticationTokenService.parse(token)
             val user = userRepository.findByUserId(userClaim.id!!)!!
+            logger.info { "UserId: ${user.id} is now authorized." }
             val userGroups = userGroupRepository.getByUserId(user.id!!)
 
             AuthZ(

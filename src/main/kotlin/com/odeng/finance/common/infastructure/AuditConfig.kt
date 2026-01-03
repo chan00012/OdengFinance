@@ -18,7 +18,7 @@ class AuditConfig {
             val authz = SecurityContextHolder.getContext()
                 .authentication
                 ?.principal as? AuthZ
-            Optional.of(authz?.user!!.id ?: -1)
+            Optional.of(authz?.user?.id ?: -1)
         }
     }
 }

@@ -43,7 +43,7 @@ class GlobalExceptionHandler {
         )
 
         return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
+            .status(ex.httpStatus)
             .body(errorResponse)
     }
 

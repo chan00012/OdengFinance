@@ -22,27 +22,45 @@ class UserGroupRepositoryAdapter(
     }
 
     override fun create(userId: Long): UserGroup {
-        val savedUserGroupEntity = jpaUserGroupRepository.save(JpaUserGroup())
+        val savedJpaUserGroup = jpaUserGroupRepository.save(JpaUserGroup())
 
-        val userRoleEntity = JpaUserRole(
+        val jpaUserRole = JpaUserRole(
             userId = userId,
-            userGroupId = savedUserGroupEntity.id!!,
+            userGroupId = savedJpaUserGroup.id!!,
             accessType = AccessType.OWNER
         )
-        val savedUserRoleEntity = jpaUserRoleRepository.save(userRoleEntity)
+        val savedJpaUserRole = jpaUserRoleRepository.save(jpaUserRole)
 
         return UserGroup(
-            id = savedUserGroupEntity.id!!,
-            userRoles = listOf(savedUserRoleEntity.toDomain())
+            id = savedJpaUserGroup.id!!,
+            userRoles = listOf(savedJpaUserRole.toDomain())
         ).also {
-            logger.info { "User group created: $it" }
+            logger.info { "UserGroup created: $it" }
         }
     }
 
-    override fun getByUserId(userId: Long): List<UserGroup> {
-        val roleUserEntities = jpaUserRoleRepository.findByUserId(userId)
+    override fun add(
+        userGroupId: Long,
+        newUserIds: List<Long>,
+    ) {
+        val existingUserRoles = jpaUserRoleRepository.findByUserGroupIdAndUserIdIn(userGroupId, newUserIds)
+        val validNewUserIds = newUserIds.subtract(existingUserRoles.map { it.userId }).toList()
 
-        return roleUserEntities.groupBy { it.userGroupId }.map {
+        val jpaUserRoles = validNewUserIds.map {
+            JpaUserRole(
+                userId = it,
+                userGroupId = userGroupId,
+                accessType = AccessType.SHARED
+            )
+        }
+
+        jpaUserRoleRepository.saveAll(jpaUserRoles)
+    }
+
+    override fun getByUserId(userId: Long): List<UserGroup> {
+        val jpaUserRoles = jpaUserRoleRepository.findByUserId(userId)
+
+        return jpaUserRoles.groupBy { it.userGroupId }.map {
             UserGroup(
                 id = it.key,
                 userRoles = it.value.map { ur -> ur.toDomain() }
@@ -50,13 +68,13 @@ class UserGroupRepositoryAdapter(
         }
     }
 
-    override fun getByUserGroup(userGroupId: Long): UserGroup {
+    override fun getByUserGroupId(userGroupId: Long): UserGroup {
         val userGroupEntity = jpaUserGroupRepository.findById(userGroupId)
             .orElseThrow { BusinessException("User group not found") }
         val roleUserEntities = jpaUserRoleRepository.findByUserGroupId(userGroupEntity.id!!)
 
         return UserGroup(
-            id = userGroupId,
+            id = userGroupEntity.id!!,
             userRoles = roleUserEntities.map { it.toDomain() }
         )
     }

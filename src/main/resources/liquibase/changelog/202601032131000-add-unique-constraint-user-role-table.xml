@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Changeset 1: Add unique constraint to user_role table -->
+    <changeSet id="202601032131000-1" author="crobles">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <uniqueConstraintExists schemaName="authz" tableName="user_role" constraintName="uk_user_role_user_group_access"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint
+                schemaName="authz"
+                tableName="user_role"
+                columnNames="user_id, user_group_id, access_type"
+                constraintName="uk_user_role_user_group_access"/>
+    </changeSet>
+
+</databaseChangeLog>
+

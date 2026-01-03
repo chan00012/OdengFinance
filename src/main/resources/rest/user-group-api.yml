@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: OdengFinance User API
+  description: API for managing user group related actions in the OdengFinance ledger system
+  version: 1.0.0
+  contact:
+    name: OdengFinance Team
+    email: support@odengfinance.com
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+  - url: https://api.odengfinance.com/v1
+    description: Production server
+
+tags:
+  - name: UserGroup
+    description: Operations related to user group management
+
+paths:
+  /api/v1/usergroup:
+    patch:
+      tags:
+        - UserGroup
+      summary: Share user group
+      description: Shares user group on requested user ids
+      operationId: shareUserGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserGroupShareRequest'
+      responses:
+        '200':
+          description: User group shared successfully
+        '400':
+          $ref: './common-components.yml#/components/responses/BadRequest'
+        '500':
+          $ref: './common-components.yml#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    UserGroupShareRequest:
+      type: object
+      required:
+        - userGroupId
+        - ownerUserId
+        - newUserIds
+      properties:
+        userGroupId:
+          type: integer
+          format: int64
+          description: The user group id to be shared
+          example: 123
+        ownerUserId:
+          type: integer
+          format: int64
+          description: The owner id of the user group
+          example: 456
+        newUserIds:
+          type: array
+          description: the user ids that user group will be shared
+          items:
+            type: integer
+            format: int64
+          example: [1,2,3]

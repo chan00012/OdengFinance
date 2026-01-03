@@ -7,4 +7,6 @@ interface JpaUserRoleRepository : JpaRepository<JpaUserRole, Long> {
     fun findByUserId(userId: Long): List<JpaUserRole>
 
     fun findByUserGroupId(userGroupId: Long): List<JpaUserRole>
+
+    fun findByUserGroupIdAndUserIdIn(userGroupId: Long, userIds: List<Long>): List<JpaUserRole>
 }

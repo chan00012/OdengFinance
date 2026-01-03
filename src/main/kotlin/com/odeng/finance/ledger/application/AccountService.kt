@@ -8,5 +8,5 @@ interface AccountService {
 
     fun getByAccountId(id: Long): Account?
 
-    fun getByUserId(userId: Long): List<Account>
+    fun getByUserGroupIds(userGroupIds: List<Long>): List<Account>
 }

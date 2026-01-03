@@ -6,5 +6,7 @@ interface UserGroupService {
 
     fun create(userId: Long): UserGroup
 
-    fun findByUserId(userId: Long): List<UserGroup>
+    fun share(input: UserGroupShareInput)
+
+    fun getByUserId(userId: Long): List<UserGroup>
 }
