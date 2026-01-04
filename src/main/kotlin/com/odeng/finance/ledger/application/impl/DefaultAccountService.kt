@@ -30,7 +30,7 @@ class DefaultAccountService(
         return savedAccount
     }
 
-    override fun getByAccountId(id: Long): Account? {
+    override fun getByAccountId(id: Long): Account {
         return accountRepository.getById(id)
     }
 

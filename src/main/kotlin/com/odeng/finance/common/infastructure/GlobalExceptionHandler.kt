@@ -1,6 +1,7 @@
 package com.odeng.finance.common.infastructure
 
 import com.odeng.finance.auth.application.AuthException
+import com.odeng.finance.common.BusinessException
 import com.odeng.finance.common.ValidationException
 import com.odeng.finance.interfaces.rest.api.model.ErrorResponse
 import jakarta.servlet.http.HttpServletRequest
@@ -40,6 +41,29 @@ class GlobalExceptionHandler {
             status = ex.httpStatus.value(),
             error = "Unauthorized",
             messages = listOf(ex.message ?: "Authentication failed")
+        )
+
+        return ResponseEntity
+            .status(ex.httpStatus)
+            .body(errorResponse)
+    }
+
+    /**
+     * Handles BusinessException thrown by business logic.
+     * Returns the HTTP status specified in the exception.
+     */
+    @ExceptionHandler(BusinessException::class)
+    fun handleBusinessException(
+        ex: BusinessException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        logger.error { "Business exception: ${ex.message}" }
+
+        val errorResponse = ErrorResponse(
+            timestamp = Instant.now(),
+            status = ex.httpStatus.value(),
+            error = ex.httpStatus.reasonPhrase,
+            messages = listOf(ex.message ?: "Business rule violation")
         )
 
         return ResponseEntity

@@ -1,11 +1,14 @@
 package com.odeng.finance.ledger.interfaces.rest
 
 import com.odeng.finance.auth.application.UserGroupService
+import com.odeng.finance.auth.application.UserGroupShareInput
 import com.odeng.finance.common.infastructure.CurrentAuthzContext
 import com.odeng.finance.interfaces.rest.api.AccountApi
 import com.odeng.finance.interfaces.rest.api.model.AccountListResponse
 import com.odeng.finance.interfaces.rest.api.model.AccountResponse
 import com.odeng.finance.interfaces.rest.api.model.CreateAccountRequest
+import com.odeng.finance.interfaces.rest.api.model.ShareAccountRequest
+import com.odeng.finance.interfaces.rest.api.model.ShareAccountResponse
 import com.odeng.finance.ledger.application.AccountService
 import com.odeng.finance.ledger.application.CreateAccountInput
 import com.odeng.finance.ledger.domain.model.Account
@@ -55,7 +58,7 @@ class AccountsController(
     }
 
     @PreAuthorize("@permission.isResourceOwner(#userId)")
-    override fun getAccountsByUserId(userId: Long): ResponseEntity<AccountListResponse> {
+    override fun getAccounts(userId: Long): ResponseEntity<AccountListResponse> {
         logger.info { "Getting available accounts under userId: $userId" }
         val userGroups = userGroupService.getByUserId(userId)
         val accounts = accountService.getByUserGroupIds(userGroups.map { it.id })
@@ -68,6 +71,21 @@ class AccountsController(
         return ResponseEntity.ok(response)
     }
 
+    override fun shareAccount(
+        accountId: Long,
+        shareAccountRequest: ShareAccountRequest
+    ): ResponseEntity<Unit> {
+        val authz = currentAuthzContext.get()
+        val account = accountService.getByAccountId(accountId)
+        userGroupService.share(UserGroupShareInput(
+            userGroupId = account.userGroupId,
+            ownerUserId = authz.user.id!!,
+            sharedWithUserId = shareAccountRequest.userId
+        ))
+
+        return ResponseEntity.noContent().build()
+    }
+
 
     // ============================================================================
     // Mapping Functions: API Models <-> Domain Models
@@ -76,7 +94,6 @@ class AccountsController(
     private fun Account.toApi(): AccountResponse {
         return AccountResponse(
             id = id!!,
-            userGroupId = userGroupId,
             name = name,
             accountType = accountType.toApi(),
             accountStatus = accountStatus.toApi()

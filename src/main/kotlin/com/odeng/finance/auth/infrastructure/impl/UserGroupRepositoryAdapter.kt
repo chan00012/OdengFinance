@@ -11,6 +11,7 @@ import com.odeng.finance.auth.infrastructure.repository.JpaUserRoleRepository
 import com.odeng.finance.common.BusinessException
 import mu.KotlinLogging
 import org.springframework.stereotype.Repository
+import kotlin.jvm.optionals.getOrNull
 
 @Repository
 class UserGroupRepositoryAdapter(
@@ -41,20 +42,17 @@ class UserGroupRepositoryAdapter(
 
     override fun add(
         userGroupId: Long,
-        newUserIds: List<Long>,
+        sharedWithUserId: Long,
     ) {
-        val existingUserRoles = jpaUserRoleRepository.findByUserGroupIdAndUserIdIn(userGroupId, newUserIds)
-        val validNewUserIds = newUserIds.subtract(existingUserRoles.map { it.userId }).toList()
+        logger.info { "Adding userId: $sharedWithUserId to userGroup: $userGroupId" }
 
-        val jpaUserRoles = validNewUserIds.map {
-            JpaUserRole(
-                userId = it,
-                userGroupId = userGroupId,
-                accessType = AccessType.SHARED
-            )
-        }
+        val jpaUserRole = JpaUserRole(
+            userId = sharedWithUserId,
+            userGroupId = userGroupId,
+            accessType = AccessType.SHARED
+        )
 
-        jpaUserRoleRepository.saveAll(jpaUserRoles)
+        jpaUserRoleRepository.save(jpaUserRole)
     }
 
     override fun getByUserId(userId: Long): List<UserGroup> {
@@ -69,8 +67,8 @@ class UserGroupRepositoryAdapter(
     }
 
     override fun getByUserGroupId(userGroupId: Long): UserGroup {
-        val userGroupEntity = jpaUserGroupRepository.findById(userGroupId)
-            .orElseThrow { BusinessException("User group not found") }
+        val userGroupEntity = jpaUserGroupRepository.findById(userGroupId).getOrNull()
+            ?: throw BusinessException("UserGroup not found with id: $userGroupId")
         val roleUserEntities = jpaUserRoleRepository.findByUserGroupId(userGroupEntity.id!!)
 
         return UserGroup(
