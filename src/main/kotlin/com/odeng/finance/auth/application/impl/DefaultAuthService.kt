@@ -38,8 +38,11 @@ class DefaultAuthService(
             throw AuthException.Companion.UNAUTHORIZED
         }
 
+        val tokenResult = authenticationTokenService.generateWithExpiration(user)
+
         return AuthN(
-            token = authenticationTokenService.generate(user),
+            token = tokenResult.token,
+            expiresAt = tokenResult.expiresAt
         )
     }
 

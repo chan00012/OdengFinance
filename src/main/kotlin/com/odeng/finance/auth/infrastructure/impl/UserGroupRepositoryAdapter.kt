@@ -43,13 +43,14 @@ class UserGroupRepositoryAdapter(
     override fun add(
         userGroupId: Long,
         sharedWithUserId: Long,
+        accessType: AccessType
     ) {
-        logger.info { "Adding userId: $sharedWithUserId to userGroup: $userGroupId" }
+        logger.info { "Adding userId: $sharedWithUserId to userGroup: $userGroupId with accessType: $accessType" }
 
         val jpaUserRole = JpaUserRole(
             userId = sharedWithUserId,
             userGroupId = userGroupId,
-            accessType = AccessType.SHARED
+            accessType = accessType
         )
 
         jpaUserRoleRepository.save(jpaUserRole)

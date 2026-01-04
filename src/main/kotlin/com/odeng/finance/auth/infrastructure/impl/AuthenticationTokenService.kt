@@ -2,6 +2,7 @@ package com.odeng.finance.auth.infrastructure.impl
 
 import com.odeng.finance.auth.domain.model.User
 import com.odeng.finance.auth.domain.model.UserStatus
+import com.odeng.finance.auth.infrastructure.TokenResult
 import com.odeng.finance.auth.infrastructure.TokenService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
@@ -19,11 +20,15 @@ class AuthenticationTokenService(
     }
 
     override fun generate(body: User): String {
+        return generateWithExpiration(body).token
+    }
+
+    fun generateWithExpiration(body: User): TokenResult {
         val now = Date()
         val expireAt = Date(now.time + validUntil)
         val key = Keys.hmacShaKeyFor(secretKey.toByteArray())
 
-        return Jwts.builder()
+        val token = Jwts.builder()
             .subject(body.username)
             .issuedAt(now)
             .expiration(expireAt)
@@ -37,6 +42,11 @@ class AuthenticationTokenService(
             )
             .signWith(key, Jwts.SIG.HS256)
             .compact()
+
+        return TokenResult(
+            token = token,
+            expiresAt = expireAt.toInstant()
+        )
     }
 
     override fun validate(token: String): Boolean {

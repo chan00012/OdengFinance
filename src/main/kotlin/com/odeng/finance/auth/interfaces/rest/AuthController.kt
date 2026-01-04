@@ -25,7 +25,8 @@ class AuthController(
             .ok()
             .body(
                 AuthenticationResponse(
-                    token = authn.token
+                    token = authn.token,
+                    expiresAt = authn.expiresAt
                 )
             )
     }

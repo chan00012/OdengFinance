@@ -193,12 +193,20 @@ components:
       type: object
       required:
         - userId
+        - accessType
       properties:
         userId:
           type: integer
           format: int64
           description: The ID of the user to share the account with
           example: 101
+        accessType:
+          type: string
+          description: The access level to grant to the user
+          enum:
+            - EDITOR
+            - VIEWER
+          example: "EDITOR"
 
     AccountType:
       type: string

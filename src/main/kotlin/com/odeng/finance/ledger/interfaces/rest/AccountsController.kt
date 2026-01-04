@@ -2,6 +2,7 @@ package com.odeng.finance.ledger.interfaces.rest
 
 import com.odeng.finance.auth.application.UserGroupService
 import com.odeng.finance.auth.application.UserGroupShareInput
+import com.odeng.finance.auth.domain.model.AccessType
 import com.odeng.finance.common.infastructure.CurrentAuthzContext
 import com.odeng.finance.interfaces.rest.api.AccountApi
 import com.odeng.finance.interfaces.rest.api.model.AccountListResponse
@@ -81,7 +82,8 @@ class AccountsController(
         userGroupService.share(UserGroupShareInput(
             userGroupId = account.userGroupId,
             ownerUserId = authz.user.id!!,
-            sharedWithUserId = shareAccountRequest.userId
+            sharedWithUserId = shareAccountRequest.userId,
+            accessType = shareAccountRequest.accessType.toDomain()
         ))
 
         return ResponseEntity.noContent().build()
@@ -125,6 +127,13 @@ class AccountsController(
         return when (this) {
             AccountStatus.ACTIVE -> RestAccountStatus.ACTIVE
             AccountStatus.INACTIVE -> RestAccountStatus.INACTIVE
+        }
+    }
+
+    private fun ShareAccountRequest.AccessType.toDomain(): AccessType {
+        return when (this) {
+            ShareAccountRequest.AccessType.EDITOR -> AccessType.EDITOR
+            ShareAccountRequest.AccessType.VIEWER -> AccessType.VIEWER
         }
     }
 }

@@ -61,8 +61,14 @@ components:
       type: object
       required:
         - token
+        - expiresAt
       properties:
         token:
           type: string
           description: The authentication token in jwt format
           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+        expiresAt:
+          type: string
+          format: date-time
+          description: The timestamp when the token expires (ISO 8601 format)
+          example: "2026-01-04T14:30:00Z"
