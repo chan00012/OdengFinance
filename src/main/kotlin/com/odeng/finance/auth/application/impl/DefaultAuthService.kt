@@ -39,7 +39,7 @@ class DefaultAuthService(
         }
 
         return AuthN(
-            token = authenticationTokenService.generate(user)
+            token = authenticationTokenService.generate(user),
         )
     }
 

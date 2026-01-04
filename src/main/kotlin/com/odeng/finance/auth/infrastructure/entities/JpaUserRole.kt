@@ -59,7 +59,6 @@ class JpaUserRole(
     companion object {
         fun JpaUserRole.toDomain(): UserRole {
             return UserRole(
-                id = id!!,
                 userId = userId,
                 access = accessType
             )

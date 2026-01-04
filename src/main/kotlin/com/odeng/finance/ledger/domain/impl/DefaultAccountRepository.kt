@@ -1,5 +1,6 @@
 package com.odeng.finance.ledger.domain.impl
 
+import com.odeng.finance.common.BusinessException
 import com.odeng.finance.ledger.domain.model.Account
 import com.odeng.finance.ledger.domain.AccountRepository
 import com.odeng.finance.ledger.infastructure.entities.JpaAccount
@@ -32,7 +33,8 @@ class DefaultAccountRepository(
     }
 
     override fun getById(id: Long): Account {
-        return jpaAccountRepository.findById(id).getOrNull()?.toDomain() ?: error("Account with id $id not found")
+        return jpaAccountRepository.findById(id).getOrNull()?.toDomain()
+            ?: throw BusinessException("Account with id $id not found")
     }
 
     override fun getByUserGroupIds(userGroupIds: List<Long>): List<Account> {

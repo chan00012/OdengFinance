@@ -57,7 +57,7 @@ class AccountsController(
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
-    @PreAuthorize("@permission.isResourceOwner(#userId)")
+    @PreAuthorize("@permission.isSameUser(#userId)")
     override fun getAccounts(userId: Long): ResponseEntity<AccountListResponse> {
         logger.info { "Getting available accounts under userId: $userId" }
         val userGroups = userGroupService.getByUserId(userId)
@@ -71,6 +71,7 @@ class AccountsController(
         return ResponseEntity.ok(response)
     }
 
+    @PreAuthorize("@permission.isAccountOwner(#accountId)")
     override fun shareAccount(
         accountId: Long,
         shareAccountRequest: ShareAccountRequest
