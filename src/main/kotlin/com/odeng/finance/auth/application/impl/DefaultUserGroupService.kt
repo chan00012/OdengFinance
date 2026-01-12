@@ -32,19 +32,17 @@ class DefaultUserGroupService(private val userGroupRepository: UserGroupReposito
             throw AuthException.ACCESS_DENIED
         }
 
-        // Business Rule 2: Validate accessType is not OWNER
+        // Business Rule 2: Validate requester is the owner
+        val userGroup = userGroupRepository.getByUserGroupId(input.userGroupId)
+        if (userGroup.getUserAccessType(input.ownerUserId) == AccessType.OWNER) {
+            logger.error { "UserId: ${input.ownerUserId} is not owner of userGroup: ${input.userGroupId}" }
+            throw AuthException.ACCESS_DENIED
+        }
+
+        // Business Rule 3: Validate accessType is not OWNER
         if (input.accessType == AccessType.OWNER) {
             logger.error { "Cannot grant OWNER access through share API" }
             throw BusinessException("Cannot grant OWNER access", HttpStatus.BAD_REQUEST)
-        }
-
-        val userGroup = userGroupRepository.getByUserGroupId(input.userGroupId)
-        val ownerUserRole = userGroup.getOwner()
-
-        // Business Rule 3: Validate requester is the owner
-        if (input.ownerUserId != ownerUserRole.userId) {
-            logger.error { "UserId: ${input.ownerUserId} is not owner of userGroup: ${input.userGroupId}" }
-            throw AuthException.ACCESS_DENIED
         }
 
         // Business Rule 4: Check if user already has access (duplicate check)

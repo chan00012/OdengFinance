@@ -19,16 +19,6 @@ class PermissionVerifier(
         return userId == authz.user.id
     }
 
-    fun isAccountOwner(accountId: Long): Boolean {
-        val authz = currentAuthzContext.get()
-        val account = accountService.getByAccountId(accountId)
-
-        return authz.userGroups
-            .find { it.id == account.userGroupId }
-            ?.getOwner()
-            ?.userId == authz.user.id
-    }
-
     fun canShareAccount(accountId: Long): Boolean {
         val authz = currentAuthzContext.get()
         val account = accountService.getByAccountId(accountId)
