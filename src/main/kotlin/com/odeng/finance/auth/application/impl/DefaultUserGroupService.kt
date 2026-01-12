@@ -50,7 +50,7 @@ class DefaultUserGroupService(private val userGroupRepository: UserGroupReposito
         // Business Rule 4: Check if user already has access (duplicate check)
         val existingUser = userGroup.userRoles.find { it.userId == input.sharedWithUserId }
         if (existingUser != null) {
-            logger.error { "UserId: ${input.sharedWithUserId} already has access to userGroup: ${input.userGroupId}" }
+            logger.error { "UserId: ${input.sharedWithUserId} already has access to userGroup: ${input.userGroupId} with accessType: ${existingUser.access}" }
             throw BusinessException("Account is already shared with this user", HttpStatus.CONFLICT)
         }
 

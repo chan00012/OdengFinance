@@ -28,4 +28,14 @@ class PermissionVerifier(
             ?.getOwner()
             ?.userId == authz.user.id
     }
+
+    fun canShareAccount(accountId: Long): Boolean {
+        val authz = currentAuthzContext.get()
+        val account = accountService.getByAccountId(accountId)
+
+        return authz.userGroups
+            .filter { it.id == account.userGroupId }
+            .flatMap { it.userRoles }
+            .any { it.userId == authz.user.id && it.access.canShare() }
+    }
 }

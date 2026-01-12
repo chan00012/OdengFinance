@@ -72,7 +72,7 @@ class AccountsController(
         return ResponseEntity.ok(response)
     }
 
-    @PreAuthorize("@permission.isAccountOwner(#accountId)")
+    @PreAuthorize("@permission.canShareAccount(#accountId)")
     override fun shareAccount(
         accountId: Long,
         shareAccountRequest: ShareAccountRequest
